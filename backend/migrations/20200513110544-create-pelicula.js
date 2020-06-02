@@ -11,6 +11,7 @@ module.exports = {
       idApi: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        
       },
       calificacion: {
         type: Sequelize.FLOAT
@@ -28,7 +29,6 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
         references: {
           model: {
             tableName: 'Users'

@@ -7,18 +7,14 @@ const Sequelize = require('sequelize');
 const models =require("../../models");
 //Cambiar modelos se importan 
 
-
-
-
-
-
 console.log('entre');
 const peliculas = models.Pelicula;
 
 
 router.post('/', async (req, res) => {
     console.log(req.body);
-    
+    if (req.body.etiquetaId)
+    {
         return await peliculas.create({
             idApi: req.body.idApi,
             etiquetaId: req.body.etiquetaId,
@@ -32,12 +28,83 @@ router.post('/', async (req, res) => {
                 res.send(peliculas);
             }
         }).catch(function (error){
-            res.status(400).send('Error al obtener todos'+
+            console.log(error);
+            
+            res.status(400).send('Error a crear registro '+
             error )
         });
-    
+    }
+    else if (req.body.calificacion){
+        return await peliculas.create({
+            idApi: req.body.idApi,
+            calificacion: req.body.calificacion,
+            userId: req.body.id
+            
+        }).then(function (peliculas) {
+            console.log(peliculas);
+            if (peliculas) {
+                console.log("Bien");
+                
+                res.send(peliculas);
+            }
+        }).catch(function (error){
+            console.log(error);
+            
+            res.status(400).send('Error a crear registro '+
+            error )
+        });
+    }
+
 
 });
+
+router.put('/', async (req, res) => {
+    console.log("modificar");
+    
+    console.log(req.body);
+    if (req.body.etiquetaId)
+    {
+        const pelicula = await peliculas.update({
+            etiquetaId: req.body.etiquetaId,
+        },{
+        where: {
+            idApi: req.body.idApi,
+            userId: req.body.id
+        },
+        }).then(function (pelicula) {
+            if (pelicula) {
+                res.send(pelicula);
+            } else {
+                res.status(400).send('Error al modificar pelicula');
+            }
+        }).catch(function (error){
+            res.status(400).send('Error al tratar de modificar'+
+            error )
+        });
+    }
+    else if (req.body.calificacion){
+        const pelicula = await peliculas.update({
+            calificacion: req.body.calificacion,
+        },{
+        where: {
+            idApi: req.body.idApi,
+            userId: req.body.id
+        },
+        }).then(function (pelicula) {
+            if (pelicula) {
+                res.send(pelicula);
+            } else {
+                res.status(400).send('Error al modificar pelicula');
+            }
+        }).catch(function (error){
+            res.status(400).send('Error al tratar de modificar'+
+            error )
+        });
+    }
+    
+});
+
+
 
 router.get('/',async(req,res)=> {
     console.log(req.query);
@@ -52,7 +119,6 @@ router.get('/',async(req,res)=> {
     }).then(function (pelicula) {
             if (pelicula) {
                 console.log("resultados de pelicula");
-                console.log(pelicula);
                 res.send(pelicula);
             } else {
                 res.status(400).send('Error al obtener todos');
@@ -66,32 +132,6 @@ router.get('/',async(req,res)=> {
 
 
 
-
-
-//get con parametros
-router.get('/muestra/:id',async(req,res)=> {
-    const idUser=req.params.id;
-    console.log(req.params);
-    
-        const usuario = await usuarios.findOne({
-            where: {
-                id: idUser
-            }
-          })
-          .then(function (usuario) {
-            if (usuario) {
-                //console.log(usuario);
-                
-                res.send(usuario);
-            } else {
-                res.status(400).send('Error in insert new record');
-            }
-        }).catch(function (error){
-            res.status(400).send('Error in insert new record'+
-            error )
-        });
-
-} );
 
 router.get('/log/:user',async(req,res)=> {
     
@@ -130,32 +170,6 @@ router.get('/log/:user',async(req,res)=> {
 
 } );
 
-router.put('/', async (req, res) => {
-    console.log("modificar");
-    
-    console.log(req.body);
-    
-    
-    const pelicula = await peliculas.update({
-            nombre : req.body.nombre
-        },{
-        where: {
-            id: req.body.id,
-            userId: req.body.userId
-        },
-        }).then(function (pelicula) {
-        if (pelicula) {
-            res.send(pelicula);
-        } else {
-            res.status(400).send('Error al modificar lista');
-        }
-        
-    }).catch(function (error){
-        res.status(400).send('Error al tratar de modificar'+
-        error )
-    });
-    
-});
 
 
 router.delete('/:id', async (req, res) => {

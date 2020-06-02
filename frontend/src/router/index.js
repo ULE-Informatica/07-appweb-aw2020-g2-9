@@ -10,6 +10,7 @@ import Ajustes from '../views/Ajustes.vue'
 import Movie from '../views/Movie.vue'
 import Registro from '../views/Registro.vue'
 import Login from '../views/Login.vue'
+import Serie from '../views/Serie.vue'
 
 
 
@@ -56,6 +57,11 @@ Vue.use(VueRouter)
     path: '/peli/:id_movie',
     name: 'Movie',
     component: Movie
+  },
+  {
+    path: '/serie/:id_serie',
+    name: 'Serie',
+    component: Serie
   },
   {
     path: '/registro',

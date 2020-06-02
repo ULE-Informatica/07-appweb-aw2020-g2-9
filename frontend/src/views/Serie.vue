@@ -13,9 +13,9 @@
         -->         
       </v-col>
       <v-col cols="8" class="shrink">
-      {{ $route.params.id_movie }}
+      {{ $route.params.id_serie }}
         <v-row align="center" justify="center">
-          <h1>{{datosPelicula.title}}</h1>
+          <h1>{{datosPelicula.name}}</h1>
         </v-row>
         <v-row align="center" justify="center">
           <h5 v-for="genero in datosPelicula.genres" :key="genero.id">{{ genero.name+ "-"}}  </h5>
@@ -46,7 +46,7 @@
         </v-row>
         <v-row align="center" justify="center">
           <v-col>
-            Fecha: {{datosPelicula.release_date}}
+            Fecha del primer episodio: {{datosPelicula.first_air_date}}
           </v-col>
           <v-col>
             Idioma original: {{datosPelicula.original_language}} 
@@ -70,13 +70,13 @@
           
           </v-col>
           <v-col cols="6" sm="6" md="4">
-            <v-btn v-if="!peliculaRegistrada" class="ma-2" tile outlined  
-            @click="modificarCalificacion($route.params.id_movie, calificacion)"> 
-              Guardar calificación {{calificacion}}
+            <v-btn v-if="serieRegistrada" class="ma-2" tile outlined  
+            @click="modificarCalificacion($route.params.id_serie, calificacion)"> 
+              Modificar calificación {{calificacion}} 
             </v-btn>
             <v-btn v-else class="ma-2" tile outlined  
-            @click="agregarCalificacion($route.params.id_movie, calificacion)"> 
-              Guardar calificación {{calificacion}}
+            @click="agregarCalificacion($route.params.id_serie, calificacion)"> 
+              Guardar calificación {{calificacion}} 
             </v-btn>
           </v-col>
         </v-row>
@@ -91,11 +91,11 @@
             Guardar en lista
           </v-btn>
         </v-row>
-        <v-row v-if="!peliculaRegistrada">
+        <v-row v-if="!serieRegistrada">
           <H2>Etiqueta</h2>
          <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined 
           color="color"
-            @click="agregarEtiqueta($route.params.id_movie, item.id)" 
+            @click="agregarEtiqueta($route.params.id_serie, item.id)" 
           >
 
             <v-icon v-if="etiquetaRegistrada==item.id" left>mdi-plus</v-icon> {{item.etiqueta}}   
@@ -105,7 +105,7 @@
           <H2>Etiqueta</h2>
          <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined 
           
-            @click="modificarEtiqueta($route.params.id_movie, item.id)" 
+            @click="modificarEtiqueta($route.params.id_serie, item.id)" 
           >
             <v-icon v-if="etiquetaRegistrada!=item.id" left>mdi-plus</v-icon> {{item.etiqueta}}
           </v-btn>
@@ -131,7 +131,7 @@ export default {
       color:"primary",
       etiquetas:[],
       etiquetaRegistrada:'',
-      peliculaRegistrada: false,
+      serieRegistrada: false,
 
       listas2:[],
       
@@ -258,15 +258,17 @@ export default {
         axios.get('etiqueta/movie',{
           params: {
             id: this.id,
-            movie_id: this.$route.params.id_movie
+            movie_id: this.$route.params.id_serie
           }
         })
         .then( (res) => {
-          console.log("se checo movie");
-
-          this.etiquetaRegistrada=res.data.id;
-          this.peliculaRegistrada=true;
-          console.log(this.etiquetaRegistrada);
+          console.log("se checo serie");
+          if(res.data.id){
+              this.etiquetaRegistrada=res.data.id;
+            this.serieRegistrada=true;
+            console.log(this.etiquetaRegistrada);
+          }
+          
         })
         .catch( (error) => {
           console.log(error);
@@ -310,13 +312,18 @@ export default {
         axios.get('pelicula',{
           params: {
             id: this.id,
-            movie_id: this.$route.params.id_movie
+            movie_id: this.$route.params.id_serie
           }
         })
         .then( (res) => {
-          console.log("se checo movie");
-          this.peliculaRegistrada=true;
-          this.calificacion=res.data[0].calificacion;
+          console.log("se checo serie");
+          
+          if (res.data[0].calificacion)
+          {
+            this.serieRegistrada=true;
+            this.calificacion=res.data[0].calificacion;
+            console.log(this.calificacion);
+          }
 
         })
         .catch( (error) => {
@@ -333,32 +340,17 @@ export default {
       this.setUsuario();
       console.log("e:"+this.$store.state.id);
     }
-    if(this.$route.params.id_movie)
-    {
-      console.log(this.$route.params.id_movie); 
-    //busca la pelicula
-     // Make a request for a user with a given ID
-    axios.get('https://api.themoviedb.org/3/movie/'+this.$route.params.id_movie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-MX')
-      .then( (response) => {
-        console.log("Datos de la pelicula");
-        console.log(response.data);
-        this.datosPelicula = response.data
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
-    }else if (this.$route.params.id_serie)
-    {
+    
       axios.get('https://api.themoviedb.org/3/tv/'+this.$route.params.id_serie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-ES')
       .then( (response) => {
-        console.log("Datos de la pelicula");
+        console.log("Datos de la serie");
         console.log(response.data);
         this.datosPelicula = response.data
       })
       .catch( (error) => {
         console.log(error);
       });
-    }
+   
     
     },
   beforeMount: async function(){
@@ -400,7 +392,7 @@ export default {
     axios.get('lista/pelicula',{
       params: {
         id: this.id,
-        movie_id: this.$route.params.id_movie
+        movie_id: this.$route.params.id_serie
       }
     })
     .then( (res) => {

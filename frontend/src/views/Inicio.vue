@@ -33,7 +33,7 @@
                 <v-card class="ma-2 mt-3" max-width=140px flat>
                   <v-img v-if=serie.poster_path :src="'https://image.tmdb.org/t/p/w500/'+serie.poster_path" class="align-end" 
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height=180px> 
-                    <router-link :to="{ name: 'Movie', params: { id_movie: serie.id }}">
+                    <router-link :to="{ name: 'Serie', params: { id_serie: serie.id }}">
                       <v-card-subtitle v-text="serie.name" class="white--text"></v-card-subtitle>
                     </router-link>
                   </v-img>
