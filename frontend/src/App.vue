@@ -81,12 +81,11 @@
       <v-spacer></v-spacer>
       <v-toolbar-title>Eye Movies</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-text-field v-model="titulo" @keyup="getResultados(titulo)" label="Nombre" append-icon="mdi-magnify"></v-text-field>
       <v-btn icon>
         <router-link :to="{ name: 'Peliculas'}">
         <v-icon v-on:click="getResultados(titulo)">mdi-magnify</v-icon>
-        </router-link>
-        
-        
+        </router-link>            
       </v-btn>
         <input type="text" v-model="titulo">
         {{id}}
