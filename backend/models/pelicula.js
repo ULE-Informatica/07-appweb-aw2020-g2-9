@@ -1,10 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Pelicula = sequelize.define('Pelicula', {
-    idApi: DataTypes.INTEGER,
     calificacion: DataTypes.FLOAT,
-    etiquetaId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    peliculaId:  DataTypes.INTEGER,
+    isVista:  DataTypes.INTEGER,
+    isPendiente :  DataTypes.INTEGER,
+    isFavorita:  DataTypes.INTEGER,
 
 
   }, {
@@ -12,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Pelicula.associate = function(models) {
     // associations can be defined here
-    Pelicula.belongsTo(models.Etiqueta,{
-      foreignKey: 'etiquetaId'
+    Pelicula.belongsTo(models.User,{
+      foreignKey: 'userId'
     });
 
     /*

@@ -8,24 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idApi: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        
-      },
-      calificacion: {
-        type: Sequelize.FLOAT
-      },
-      
-      etiquetaId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'Etiqueta'
-          },
-          key:'id'
-        }
-      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -36,7 +18,32 @@ module.exports = {
           key:'id'
         },
       },
-
+      peliculaId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        
+      },
+      isVista: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+        
+      },
+      isPendiente: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+        
+      },
+      isFavorita: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+        
+      },
+      calificacion: {
+        type: Sequelize.FLOAT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
