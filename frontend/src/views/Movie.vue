@@ -1,6 +1,7 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row>
+      <!-- POSTER -->
       <v-col cols="4"  class="shrink">
         <div v-if="'https://image.tmdb.org/t/p/w300/'+datosPelicula.poster_path">
           <v-img  :src="'https://image.tmdb.org/t/p/w300/'+datosPelicula.poster_path" class="align-end px-3"> 
@@ -12,62 +13,66 @@
         </div>
         -->         
       </v-col>
-      <v-col cols="8" class="shrink">
-      {{ $route.params.id_movie }}
+      <v-col cols="8" class="shrink px-5 pe-8">
+      <!--{{ $route.params.id_movie }}-->
+        <!-- TITULO -->
         <v-row align="center" justify="center">
           <h1>{{datosPelicula.title}}</h1>
         </v-row>
+        <!-- GÉNEROS -->
         <v-row align="center" justify="center">
-          <h5 v-for="genero in datosPelicula.genres" :key="genero.id">{{ genero.name+ "-"}}  </h5>
-          
+          <h5 v-for="genero in datosPelicula.genres" :key="genero.id">{{ " - " + genero.name + " - "}}  </h5>          
         </v-row>
+        <!-- DURACIÓN -->
         <v-row align="center" justify="center">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <span v-on="on">{{datosPelicula.runtime}} minutos</span>
+                <span v-on="on" class="text--secondary caption"> {{datosPelicula.runtime}} minutos</span>
               </template>
               <span>Duración</span>
             </v-tooltip>
         </v-row>
-        <v-row align="center" justify="center">
-          
-            <v-tooltip bottom>
+        <!-- PUNTUACIÓN -->
+        <v-row align="center" justify="center">     
+            <v-rating v-model="puntuacion" background-color="indigo lighten-3" color="indigo" half-increments hover medium></v-rating>
+            <h5 v-on="on">{{ "(" + datosPelicula.vote_average + ".0)"}} </h5>     
+            <!--<v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-icon v-on="on" v-if="datosPelicula.vote_average>8">mdi-star</v-icon>
                 <v-icon v-else v-on="on">mdi-star-half</v-icon>
                 <h5 v-on="on">{{datosPelicula.vote_average}} </h5>
               </template>
               <span>Puntuación</span>
-            </v-tooltip>
+            </v-tooltip>-->
         </v-row>
-        <v-row align="center" justify="center">
+        <!-- SIPNOSIS -->
+        <v-row align="center" justify="left">
           <H3 v-if="datosPelicula.overview">Sinopsis</H3>
-          <h5>{{ datosPelicula.overview }}</h5>
+          <h5 align="justify" class="pt-2">{{ datosPelicula.overview }}</h5>
         </v-row>
-        <v-row align="center" justify="center">
+        <!-- FECHA DE ESTRENO E IDIOMA -->
+        <v-row align="center" justify="center">          
           <v-col>
-            Fecha: {{datosPelicula.release_date}}
+            <span class="text--secondary caption"> Fecha de estreno: {{datosPelicula.release_date}}</span>
           </v-col>
           <v-col>
-            Idioma original: {{datosPelicula.original_language}} 
+            <span class="text--secondary caption"> Idioma original: {{datosPelicula.original_language}} </span>            
           </v-col>
         </v-row>
 
-        <v-row>
+        <!-- PUNTUACIÓN PERSONAL -->
+        <!--<v-row>
           <v-col cols="6" sm="6" md="4">
           <v-text-field
             label="Tu calificación"
             placeholder="8.0"
             outlined dense v-model="calificacion" hide-details
             type="number" min=1 max=10
-            
-            
-
-            
+                        
           ></v-text-field>
-
+        -->
           <!-- no puedo validar -->
-          
+        <!--  
           </v-col>
           <v-col cols="6" sm="6" md="4">
             <v-btn v-if="!peliculaRegistrada" class="ma-2" tile outlined  
@@ -79,7 +84,7 @@
               Guardar calificación {{calificacion}}
             </v-btn>
           </v-col>
-        </v-row>
+        </v-row>-->
         <v-row v-show= hidden> 
           <v-select  @change="changedValue"
               v-model="listasValores" :items="listas2"  attach chips 
