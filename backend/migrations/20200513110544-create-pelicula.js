@@ -25,17 +25,20 @@ module.exports = {
       },
       isVista: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 0
         
       },
       isPendiente: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 0
         
       },
       isFavorita: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 0
         
       },
       calificacion: {

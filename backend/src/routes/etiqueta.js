@@ -5,11 +5,11 @@ const Sequelize = require('sequelize');
 
 
 const models =require("../../models");
-const etiquetas = models.Etiqueta;
+const peliculas = models.Pelicula;
 const users = models.User;
 
 
-
+/*
 router.get('/',async(req,res)=> {
     console.log("vista todos");
     
@@ -31,26 +31,26 @@ router.get('/',async(req,res)=> {
             res.status(400).send('Error al obtener todos'+
             error )
         });
+        
 
 } )  ;
+*/
 router.get('/movie',async(req,res)=> {
     console.log("checando movie");
     
     console.log(req.query);
     
     
-    const etiqueta = await etiquetas.findOne({
-        include: [{
-            model: models.Pelicula,
-            where: { idApi: req.query.movie_id }
-        }]
-    }).then(function (etiqueta) {
+    const pelicula = await peliculas.findOne({
+        where: { peliculaId: req.query.movie_id }
+        
+    }).then(function (pelicula) {
             //if (etiqueta) {
                 console.log("resultados de etiquetas");
-                console.log(etiqueta);
+                console.log(pelicula);
                 
                 
-                res.send(etiqueta);
+                res.send(pelicula);
             
         }).catch(function (error){
             res.status(400).send('Error al obtener todos'+
