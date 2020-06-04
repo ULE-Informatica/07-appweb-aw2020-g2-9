@@ -155,7 +155,7 @@ router.put('/', async (req, res) => {
             error )
         });
     }
-    else if (req.body.etiquetaId==1)
+    else if (req.body.etiquetaId==2)
     {
         const pelicula = await peliculas.update({
             isFavorita:Sequelize.literal('(isFavorita + 1)%2'),
