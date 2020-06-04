@@ -2,9 +2,9 @@ module.exports ={
 
     database:{
         host: 'localhost',
-        dialect: 'mariadb',
+        dialect: 'mysql',
         user: 'root',
-        password: '',
+        password: 'root',
         database: 'login-nodejs2'
     }
 };
