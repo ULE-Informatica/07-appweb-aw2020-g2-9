@@ -47,7 +47,7 @@ router.get('/',async(req,res)=> {
           .then(function (lista) {
             if (lista) {
                 console.log("resultados listas all");
-                console.log(lista);
+                //console.log(lista);
                 
                 
                 res.send(lista);
@@ -146,34 +146,37 @@ router.post('/pelicula_lista', async (req, res) => {
         res.status(400).send('Error al obtener todos'+
         error )
     });
-    console.log(listasIniciales);
-    console.log("lista inicial");
-    console.log(listas);
-    var arrInicial=[];
-    for (var i=0; i<listasIniciales.length; i++) 
+    if (listasIniciales)
     {
-        arrInicial.push(listasIniciales[i].value);
-    }
-    console.log("lista inicial");
-    console.log(arrInicial);
-    console.log(listas);
-    //Se compara las listas recibidas 
-    let difference = arrInicial.filter(x => !listas.includes(x));
-
-    console.log(difference);
-    for (var i=0; i<difference.length; i++) 
-    {
-        //Se verifica que no se encuentre en la base
-        await sequelize.query("DELETE FROM `listapelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
-        { replacements: { idLista: difference[i], idPelicula:  req.body.idApi },
-         type: sequelize.QueryTypes.DELETE }
-        ).then((respuesta) => {
-            console.log("Se elimino");
+        console.log(listasIniciales);
+        console.log("lista inicial");
+        console.log(listas);
+        var arrInicial=[];
+        for (var i=0; i<listasIniciales.length; i++) 
+        {
+            arrInicial.push(listasIniciales[i].value);
         }
-        );
+        console.log("lista inicial");
+        console.log(arrInicial);
+        console.log(listas);
+        //Se compara las listas recibidas 
+        let difference = arrInicial.filter(x => !listas.includes(x));
+        console.log("diferencia");
+        
+        console.log(difference);
+        for (var i=0; i<difference.length; i++) 
+        {
+            //Se verifica que no se encuentre en la base
+            await sequelize.query("DELETE FROM `listapelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
+            { replacements: { idLista: difference[i], idPelicula:  req.body.idApi },
+            type: sequelize.QueryTypes.DELETE }
+            ).then((respuesta) => {
+                console.log("Se elimino");
+            }
+            );
+        }
+        
     }
-    
-    
     //insertar
     for (var i=0; i<listas.length; i++) 
     {
@@ -414,4 +417,4 @@ router.delete('/', async (req, res) => {
     });
     
 });
-module.exports = router;
+module.exports = router; 

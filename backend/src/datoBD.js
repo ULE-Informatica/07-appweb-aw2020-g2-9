@@ -5,6 +5,6 @@ module.exports ={
         dialect: 'mariadb',
         user: 'root',
         password: '',
-        database: 'login-nodejs2'
+        database: 'login-nodejs3'
     }
 };

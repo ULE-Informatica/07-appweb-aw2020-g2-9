@@ -41,16 +41,16 @@ router.get('/movie',async(req,res)=> {
     console.log(req.query);
     
     
-    const pelicula = await peliculas.findOne({
-        where: { peliculaId: req.query.movie_id }
-        
-    }).then(function (pelicula) {
+    sequelize.query('SELECT * FROM peliculas WHERE peliculaId = :peliculaId ',
+    { replacements: { peliculaId: req.query.movie_id }, type: sequelize.QueryTypes.SELECT }
+    
+    ).then(function (p) {
             //if (etiqueta) {
                 console.log("resultados de etiquetas");
-                console.log(pelicula);
+                console.log(p);
                 
                 
-                res.send(pelicula);
+                res.send(p);
             
         }).catch(function (error){
             res.status(400).send('Error al obtener todos'+

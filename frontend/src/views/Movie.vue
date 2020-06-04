@@ -102,17 +102,17 @@
         <v-row v-if="!peliculaRegistrada">
           <H2>Etiqueta</h2>
           <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined color="color"
-            @click="agregarEtiqueta($route.params.id_movie, item.id)" >
-            <v-icon v-if="etiquetaRegistrada==item.id" left>mdi-plus</v-icon> {{item.etiqueta}}   
+            @click="agregarEtiqueta($route.params.id_movie, index)" >
+            <v-icon v-if="etiquetaRegistrada==item.id" left>mdi-plus</v-icon> {{item}}    
           </v-btn>
         </v-row>
         <v-row v-else>
           <H2>Etiqueta</h2>
          <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined 
           
-            @click="modificarEtiqueta($route.params.id_movie, item.id)" 
+            @click="modificarEtiqueta($route.params.id_movie, index)" 
           >
-            <v-icon v-if="etiquetaRegistrada!=item.id" left>mdi-plus</v-icon> {{item.etiqueta}}
+            <v-icon v-if="!find(index)" left>mdi-plus</v-icon> {{item}} 
           </v-btn>
         </v-row>
 
@@ -133,8 +133,8 @@ export default {
       datosPelicula: [        
       ],
       color:"primary",
-      etiquetas:[],
-      etiquetaRegistrada:'',
+      etiquetas:["Vista", "Pendiente" , "Favorita" ],
+      etiquetaRegistrada:[],
       peliculaRegistrada: false,
 
       listas2:[],
@@ -165,7 +165,9 @@ export default {
   },
 
   methods: {
-      
+    find(x){
+      return (this.etiquetaRegistrada.indexOf(x) != -1);
+    },
     agregarLista(){
         console.log(this.listasValores);
         console.log(this.id);
@@ -214,7 +216,7 @@ export default {
     modificarEtiqueta(idApi, idEtiqueta){
       this.axios.put('/pelicula', {'idApi' : idApi, 'id':this.id, 'etiquetaId':idEtiqueta })
       .then(res => {
-        console.log("respuesta");        
+        console.log("respuesta etiquetas");        
         console.log(res);        
         //Actualiza la etiqueta
         this.getEtiqueta();
@@ -236,6 +238,7 @@ export default {
       .then(res => {
         console.log(res);
         this.$mount();
+        this.peliculaRegistrada=true;
       })
       .catch( e => {
         console.log("error despues de agregar");
@@ -259,8 +262,21 @@ export default {
       })
       .then( (res) => {
         console.log("se checo movie");
+        this.etiquetaRegistrada=[];
+        //this.etiquetaRegistrada=res.data[0].id;
 
-        this.etiquetaRegistrada=res.data.id;
+        if (res.data[0].isVista == 1)
+        {
+          this.etiquetaRegistrada.push(0);
+        }
+        if (res.data[0].isPendiente == 1){
+          console.log("Se agrega 1");
+          this.etiquetaRegistrada.push(1);
+        }
+        if (res.data[0].isFavorita == 1){
+           this.etiquetaRegistrada.push(2);
+        }  
+
         this.peliculaRegistrada=true;
         console.log(this.etiquetaRegistrada);
       })
@@ -374,6 +390,9 @@ export default {
     console.log(this.listas2);    
     console.log("Se ha ejecutado mounted7");
     this.getEtiqueta();
+
+
+    /*  
     this.getCalificacion();
     console.log(this.calificacion);
     
@@ -398,6 +417,8 @@ export default {
       console.log("Error");      
       console.log(error);
     });
+
+    */
   },
 
   updated: async function(){

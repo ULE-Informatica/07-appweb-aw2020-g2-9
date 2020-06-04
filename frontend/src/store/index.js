@@ -116,7 +116,7 @@ export default new Vuex.Store({
       });
     },
     getTrending: async function({ commit } ){
-      axios.get('https://api.themoviedb.org/3/trending/all/week?api_key=d3500b9561bcc274c208215eeec7093b')
+      axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=d3500b9561bcc274c208215eeec7093b&language=es-ES&page=1')
       .then( (response) => {
         const resultados = response.data.results;
         commit('llenarTrending',resultados);

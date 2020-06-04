@@ -7,8 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     isVista:  DataTypes.INTEGER,
     isPendiente :  DataTypes.INTEGER,
     isFavorita:  DataTypes.INTEGER,
-
-
   }, {
     
   });
@@ -17,12 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     Pelicula.belongsTo(models.User,{
       foreignKey: 'userId'
     });
-
-    /*
-    Pelicula.hasOne(models.etiquetas, {
-      foreignKey: 'etiquetaId'
-    });
-    */
   };
   return Pelicula;
 };
