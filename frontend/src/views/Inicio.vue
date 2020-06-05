@@ -71,16 +71,16 @@ export default {
   },
   computed: {
     ...mapState([
-            'hidden','id','resultados','popularMovies','popularSeries','trending'
-        ]),
-      ...mapMutations([
-               'llenarPopularMovies','llenarPopularSeries','llenarTrending'      
-        ]),
+      'hidden','id','resultados','popularMovies','popularSeries','trending'
+    ]),
+  ...mapMutations([
+      'llenarPopularMovies','llenarPopularSeries','llenarTrending'      
+    ]),
 
   },
   methods: {
     ...mapActions(['setUsuario','getListas','getPopularMovies',
-        'getPopularSeries', 'getTrending']),
+      'getPopularSeries', 'getTrending']),
   },
   mounted:  function(){
     this.getPopularMovies();

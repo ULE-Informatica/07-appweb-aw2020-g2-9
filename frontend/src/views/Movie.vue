@@ -99,29 +99,25 @@
             </v-btn>-->
           </v-col>
         </v-row>
+
+        <!-- ETIQUETAS -->
         <v-row v-if="!peliculaRegistrada" v-show=id>
-          <H2>Etiqueta</h2>
-          <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined color="color"
+          <v-btn v-for="(item,index) of etiquetas" :key="index" class="mx-3" tile outlined color="color"
             @click="agregarEtiqueta($route.params.id_movie, index)" >
             <v-icon left>mdi-plus</v-icon> {{item}}  
           </v-btn>
         </v-row>
         <v-row v-else v-show=id>
-          <H2>Etiqueta</h2>
-         <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined 
-          
-            @click="modificarEtiqueta($route.params.id_movie, index)" 
-          >
+          <v-btn v-for="(item,index) of etiquetas" :key="index" class="mx-3" tile outlined           
+            @click="modificarEtiqueta($route.params.id_movie, index)" >
             <v-icon v-if="!find(index)" left>mdi-plus</v-icon> {{item}} 
           </v-btn>
         </v-row>
-
-
       </v-col>
     </v-row>
-
   </v-container>
 </template>
+
 <script>
 const axios = require('axios');
 import { mapActions, mapState } from 'vuex'
@@ -165,22 +161,24 @@ export default {
   },
 
   methods: {
+
     find(x){
       return (this.etiquetaRegistrada.indexOf(x) != -1);
     },
+
     agregarLista(){
-        console.log(this.listasValores);
-        console.log(this.id);
-        console.log(this.datosPelicula.id);
-        
-        this.axios.post('/lista/pelicula_lista', {'idApi' : this.datosPelicula.id, 'id':this.id, 'listas':this.listasValores })
-        .then(res => {
-          console.log(res);
-        })
-        .catch( e => {
-          console.log("error despues de agregar");
-          console.log(e.response);
-        })        
+      console.log(this.listasValores);
+      console.log(this.id);
+      console.log(this.datosPelicula.id);
+      
+      this.axios.post('/lista/pelicula_lista', {'idApi' : this.datosPelicula.id, 'id':this.id, 'listas':this.listasValores })
+      .then(res => {
+        console.log(res);
+      })
+      .catch( e => {
+        console.log("error despues de agregar");
+        console.log(e.response);
+      })        
     },
 
     changedValue: function() {

@@ -8,6 +8,7 @@
           required
           @input="$v.usuario.nombre.$touch()"
           @blur="$v.usuario.nombre.$touch()"
+          @keydown.enter="submit"
         ></v-text-field>
         <v-text-field
           v-model="usuario.apellidos"
@@ -15,6 +16,7 @@
           required
           @input="$v.usuario.apellidos.$touch()"
           @blur="$v.usuario.apellidos.$touch()"
+          @keydown.enter="submit"
         ></v-text-field>
         <v-text-field
           v-model="usuario.email"
@@ -23,6 +25,7 @@
           required
           @input="$v.usuario.email.$touch()"
           @blur="$v.usuario.email.$touch()"
+          @keydown.enter="submit"
         ></v-text-field>
         <v-text-field
           v-model="usuario.password"
@@ -35,9 +38,10 @@
           @click:append="show1 = !show1"
           @input="$v.usuario.password.$touch()"
           @blur="$v.usuario.password.$touch()"
+          @keydown.enter="submit"
         ></v-text-field>
         <v-row class="pt-7 justify-center">
-          <v-btn type="submit" class="mr-4" color="pink lighten-4">Iniciar sesión</v-btn>
+          <v-btn type="submit" class="mr-4" color="pink lighten-4">Crear cuenta</v-btn>
           <v-btn @click="clear" color="pink lighten-4" class="mr-4">Borrar</v-btn>
           <v-btn @click="$router.push('/Login')" color="pink lighten-4">Volver a login</v-btn>
         </v-row>
@@ -85,18 +89,18 @@
       passwordErrors () {
         const errors = []
         if (!this.$v.usuario.password.$dirty) return errors
-        !this.$v.usuario.password.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.usuario.password.required && errors.push('Name is required.')
+        !this.$v.usuario.password.maxLength && errors.push('La contraseña no puede tener más de 10 caracteres')
+        !this.$v.usuario.password.required && errors.push('La contraseña es obligatoria')
         return errors
       },
       emailErrors () {
         const errors = []
         if (!this.$v.usuario.email.$dirty) return errors
-        !this.$v.usuario.email.email && errors.push('Must be valid e-mail')
-        !this.$v.usuario.email.required && errors.push('E-mail is required')
+        !this.$v.usuario.email.email && errors.push('El email debe ser válido')
+        !this.$v.usuario.email.required && errors.push('El email es obligatorio')
         return errors
       },
-      //TRATAR DE QuE APAREZCAN LOS MENSAJES
+      //TRATAR DE QUE APAREZCAN LOS MENSAJES
       mensaje: function(){
         var m=this.message;
         

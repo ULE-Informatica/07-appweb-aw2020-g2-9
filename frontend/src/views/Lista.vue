@@ -11,33 +11,3 @@
     </v-card>
   </div>
 </template>
-
-
-<script>
-//const axios = require('axios');
-export default {
-  
-  data: () => ({
-    model: null
-  }),
-  mounted: function(){
-    console.log("Se ha ejecutado mounted");
-    console.log(this.$store.state.username);
-    console.log(this.$store.state.resultados);
-    console.log(this.$store.state.id);
-    
-  },
-  computed: {
-        resultados() {
-            return this.$store.state.resultados
-        },
-    },
-
-  beforeUpdate: function(){
-    console.log("Se ha ejecutado before update");
-    console.log(this.$store.state.resultados);
-    
-  }
-};
-</script>
-

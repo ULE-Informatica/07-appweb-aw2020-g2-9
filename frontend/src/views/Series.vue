@@ -1,25 +1,15 @@
 <template>
-
-  <v-container class="fill-height mx-3 mr-5" fluid>
-    <v-row align="center" justify="center">
-      <v-col class="shrink">
-        <v-sheet dark class="my-3 mr-5" elevation="8" >
-          <v-slide-group v-model="model" class="px-3 pb-1" show-arrows>
-            <v-slide-item v-for="serie in $store.state.popularSeries" :key="serie.id">            
-              <v-card class="ma-2 mt-3" max-width=140px flat>
-                <v-img v-if=serie.poster_path :src="'https://image.tmdb.org/t/p/w500/'+serie.poster_path" class="align-end" 
-                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height=180px> 
-                  <router-link :to="{ name: 'Serie', params: { id_serie: serie.id }}">
-                    <v-card-subtitle v-text="serie.original_title" class="white--text"></v-card-subtitle>
-                  </router-link>
-                </v-img>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>  
+  <div class="pa-7">
+    <v-card class="d-flex flex-wrap justify-center" flat tile>
+      <v-card v-for="serie in $store.state.popularSeries" :key="serie.id" outline tile
+        class="ma-3" max-width=140px flat @click="$router.push('/serie/' + serie.id)">
+        <v-img v-if=serie.poster_path :src="'https://image.tmdb.org/t/p/w500/'+serie.poster_path" 
+          class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height=180px> 
+          <v-card-subtitle v-text="serie.title" class="white--text font-weight-medium"></v-card-subtitle>                    
+        </v-img>
+      </v-card>
+    </v-card>
+  </div>
 </template>
 
 

@@ -4,9 +4,8 @@ import Inicio from '../views/Inicio.vue'
 import Peliculas from '../views/Peliculas.vue'
 import Series from '../views/Series.vue'
 import Listas from '../views/Listas.vue'
-import Amigos from '../views/Amigos.vue'
+import Lista from '../views/Lista.vue'
 import Cuenta from '../views/Cuenta.vue'
-import Ajustes from '../views/Ajustes.vue'
 import Movie from '../views/Movie.vue'
 import Registro from '../views/Registro.vue'
 import Login from '../views/Login.vue'
@@ -38,21 +37,15 @@ Vue.use(VueRouter)
     component: Listas
   },
   {
-    path: '/amigos',
-    name: 'Amigos',
-    component: Amigos
+    path: '/lista/:id_lista',
+    name: 'Listas',
+    component: Lista
   },
   {
     path: '/cuenta',
     name: 'Cuenta',
     component: Cuenta
   },
-  {
-    path: '/ajustes',
-    name: 'Ajustes',
-    component: Ajustes
-  }
-  ,
   {
     path: '/peli/:id_movie',
     name: 'Movie',

@@ -18,6 +18,7 @@
             required
             @input="$v.usuario.email.$touch()"
             @blur="$v.usuario.email.$touch()"
+            @keydown.enter="submit"
           ></v-text-field>
           <v-text-field
             v-model="usuario.password"
@@ -30,6 +31,7 @@
             @click:append="show1 = !show1"
             @input="$v.usuario.password.$touch()"
             @blur="$v.usuario.password.$touch()"
+            @keydown.enter="submit"
           ></v-text-field>  
           <v-row class="pt-7 justify-center">
             <v-btn class="mr-4" type="submit" color="pink lighten-4">Iniciar sesión</v-btn>
@@ -98,7 +100,7 @@
         !this.$v.usuario.email.required && errors.push('El email es obligatorio')
         return errors
       },
-      //TRATAR DE QuE APAREZCAN LOS MENSAJES
+      //TRATAR DE QUE APAREZCAN LOS MENSAJES
       mensaje: function(){
         var m=this.message;        
         return m;
