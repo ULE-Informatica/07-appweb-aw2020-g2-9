@@ -1,56 +1,50 @@
 <template>
-    <div class="container">
+    <div class="container pa-5">
       <h1>Registro</h1>
-    <form @submit.prevent="agregarUsuario(usuario)">
-        
+      <form @submit.prevent="agregarUsuario(usuario)" class="mt-3">        
         <v-text-field
-        v-model="usuario.nombre"
-        label="Nombre"
-        required
-        @input="$v.usuario.nombre.$touch()"
-        @blur="$v.usuario.nombre.$touch()"
-      ></v-text-field>
-      <v-text-field
-        v-model="usuario.apellido"
-        label="Apellido"
-        required
-        @input="$v.usuario.apellido.$touch()"
-        @blur="$v.usuario.apellido.$touch()"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="usuario.email"
-        :error-messages="emailErrors"
-        label="E-mail"
-        required
-        @input="$v.usuario.email.$touch()"
-        @blur="$v.usuario.email.$touch()"
-      ></v-text-field>
-
-
-
-      <v-text-field
-        v-model="usuario.password"
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :error-messages="passwordErrors"
-        :counter="10"
-        :type="show1 ? 'text' : 'password'"
-        label="Contraseña"
-        required
-        @click:append="show1 = !show1"
-        @input="$v.usuario.password.$touch()"
-        @blur="$v.usuario.password.$touch()"
-      ></v-text-field>
-
-        
-        <v-btn class="mr-4" type="submit">submit</v-btn>
-        <v-btn @click="clear">clear</v-btn>
-    </form>
-    <router-link :to="{ name: 'Login'}">
-        <p>Login</p>
-    </router-link>
+          v-model="usuario.nombre"
+          label="Nombre"
+          required
+          @input="$v.usuario.nombre.$touch()"
+          @blur="$v.usuario.nombre.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="usuario.apellidos"
+          label="Apellidos"
+          required
+          @input="$v.usuario.apellidos.$touch()"
+          @blur="$v.usuario.apellidos.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="usuario.email"
+          :error-messages="emailErrors"
+          label="Email"
+          required
+          @input="$v.usuario.email.$touch()"
+          @blur="$v.usuario.email.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="usuario.password"
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :error-messages="passwordErrors"
+          :counter="10"
+          :type="show1 ? 'text' : 'password'"
+          label="Contraseña"
+          required
+          @click:append="show1 = !show1"
+          @input="$v.usuario.password.$touch()"
+          @blur="$v.usuario.password.$touch()"
+        ></v-text-field>
+        <v-row class="pt-7 justify-center">
+          <v-btn type="submit" class="mr-4" color="pink lighten-4">Iniciar sesión</v-btn>
+          <v-btn @click="clear" color="pink lighten-4" class="mr-4">Borrar</v-btn>
+          <v-btn @click="$router.push('/Login')" color="pink lighten-4">Volver a login</v-btn>
+        </v-row>
+      </form>
     </div>
 </template>
+
 <script>
   import router from "../router" 
   import { validationMixin } from 'vuelidate'
@@ -68,7 +62,7 @@
         password: { required, maxLength: maxLength(10) },
         email: { required, email },
         nombre: { required },
-        apellido: { required }
+        apellidos: { required }
       }
     },
 
@@ -78,7 +72,7 @@
         email: '',
         password:'',
         nombre:'',
-        apellido: ''
+        apellidos: ''
       },
       message: '',
       success : '' 
@@ -151,7 +145,7 @@
         this.$v.$reset()
         this.usuario.nombre = ''
         this.usuario.email = ''
-        this.usuario.apellido=''
+        this.usuario.apellidos=''
         this.usuario.password=''
         
       },
