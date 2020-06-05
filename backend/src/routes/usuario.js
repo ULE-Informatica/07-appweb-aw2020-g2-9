@@ -3,9 +3,9 @@ const router = express.Router();
 var sequelize=require('../conexionBD');
 const Sequelize = require('sequelize');
 
-
+const pass=require('../lib/password');
 const models =require("../../models");
-//Cambiar modelos se importan 
+const users = models.User;
 
 
 
@@ -121,13 +121,17 @@ router.get('/log/:user',async(req,res)=> {
     console.log();
     
         const usuario = await usuarios.findOne({
+            include: [{
+                model: users,
+                where: { state: Sequelize.col('Datospersonales.userId') }
+            }],
             where: {
                 userId: req.params.user
             }
           })
           .then(function (usuario) {
             if (usuario) {
-                //console.log(usuario);
+                console.log(usuario);
                 
                 res.send(usuario);
             } else {
@@ -141,12 +145,35 @@ router.get('/log/:user',async(req,res)=> {
 } );
 
 
-router.put('/:id', async (req, res) => {
+router.put('/', async (req, res) => {
+    console.log("actualizar datos");
+    
     console.log(req.body);
-    // Change everyone without a last name to "Doe"
-    var usuario=await usuarios.update({ Apellido: "Doe" }, {
+    
+    if (req.body.password=='')
+        console.log("Vacio");
+    else{
+        password = await pass.encryptPassword(req.body.password);
+        var user=await users.update({ password: password }, {
+            where: {
+                id: req.body.id
+            }
+        }).then(function (usuario) {
+            if (usuario) {
+                res.send(usuario);
+            } else {
+                res.status(400).send('Error al modificar');
+            }
+        }).catch(function (error){
+            res.status(400).send('Error al tratar de modificar'+
+            error )
+        });
+        
+    }
+
+    var usuario=await usuarios.update({ Apellido: req.body.apellido, Nombre: req.body.nombre }, {
         where: {
-            Apellido: null
+            userId: req.body.id
         }
     }).then(function (usuario) {
         if (usuario) {
@@ -158,9 +185,13 @@ router.put('/:id', async (req, res) => {
         res.status(400).send('Error al tratar de modificar'+
         error )
     });
+    
+    
+
 });
 
 router.delete('/:id', async (req, res) => {
+
     console.log(req.body);
     
     

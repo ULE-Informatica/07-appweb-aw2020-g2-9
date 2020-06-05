@@ -103,7 +103,7 @@
           <H2>Etiqueta</h2>
           <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined color="color"
             @click="agregarEtiqueta($route.params.id_movie, index)" >
-            <v-icon v-if="etiquetaRegistrada==item.id" left>mdi-plus</v-icon> {{item}}    
+            <v-icon left>mdi-plus</v-icon> {{item}}  
           </v-btn>
         </v-row>
         <v-row v-else>

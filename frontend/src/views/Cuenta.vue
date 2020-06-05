@@ -29,7 +29,9 @@
         @blur="$v.usuario.apellido.$touch()"
       ></v-text-field>
 
+      
       <v-text-field
+        disabled
         v-model="usuario.email"
         :error-messages="emailErrors"
         label="E-mail"
@@ -46,7 +48,7 @@
         :counter="10"
         :type="show1 ? 'text' : 'password'"
         label="Contraseña"
-        required
+        
         @click:append="show1 = !show1"
         @input="$v.usuario.password.$touch()"
         @blur="$v.usuario.password.$touch()"
@@ -58,12 +60,6 @@
 
 
     </form>
-
-
-
-    <router-link :to="{ name: 'Registro'}">
-        <p>Registro</p>
-    </router-link>
   </div>
 </template>
 
@@ -87,6 +83,8 @@
 
 
 <script>
+  import { mapActions } from 'vuex' 
+  import axios from "axios"    
   import router from "../router" 
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
@@ -112,10 +110,9 @@
       usuario:{
         changedPassword: false,
         email: '',
-        password:'********',
-        nombre:'',
-        apellido: '',
-        id: null
+        password:'',
+        nombre:'Pedro',
+        apellido: ''
       },
       message: '',
       success : '' 
@@ -128,15 +125,15 @@
       passwordErrors () {
         const errors = []
         if (!this.$v.usuario.password.$dirty) return errors
-        !this.$v.usuario.password.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.usuario.password.required && errors.push('Name is required.')
+        !this.$v.usuario.password.maxLength && errors.push('Contraseña debe ser de máximo 10 caracteres')
+        //!this.$v.usuario.password.required && errors.push('Contraseña es requerida.')
         return errors
       },
       emailErrors () {
         const errors = []
         if (!this.$v.usuario.email.$dirty) return errors
-        !this.$v.usuario.email.email && errors.push('Must be valid e-mail')
-        !this.$v.usuario.email.required && errors.push('E-mail is required')
+        !this.$v.usuario.email.email && errors.push('Debe ser un e-mail valido')
+        !this.$v.usuario.email.required && errors.push('E-mail es requerido')
         return errors
       },
       
@@ -153,12 +150,49 @@
     },
 
     methods: {
+      ...mapActions(['setUsuario']),
+        getUserData: function(usuario) {  
+          console.log("wntrw");
+          
+          let self = this    
+          axios.get("/usuario/log/"+usuario)    
+            .then((response) => {    
+                console.log(response)    
+                console.log(response.data.Nombre)   
+                console.log(this.usuario.nombre);
+                
+                self.$set(this.usuario, "nombre", response.data.Nombre)  
+                self.$set(this.usuario, "apellido", response.data.Apellido)
+                console.log(response.data.User.email); 
+                self.$set(this.usuario, "email", response.data.User.email)
+
+                //Se tendria que pedir la contraseña anterior y verificar solo si tenemos tiempo (opcional)
+
+                //self.$set(this.usuario, "password", response.data.User.password)
+
+                /*
+                self.$set(this.usuario, "apellido", response.data.Apellido)  
+                self.$set(this.usuario, "apellido", response.data.Apellido)  
+                self.$set(this.usuario, "apellido", response.data.Apellido)  
+                */
+            })    
+            .catch((errors) => {    
+                console.log(errors)    
+                router.push("/login")    
+            })  
+                  
+        },
+
       modUsuario(usuario){
-            // TODO crear post para actualizar valores
-            this.axios.post('/modificacion', usuario)
+            // TODO crear put para actualizar valores
+            
+        this.axios.put('/usuario',
+          {
+            'email' : usuario.email, 'id':this.$store.state.id, 'password':usuario.password,
+            'nombre': usuario.nombre, 'apellido': usuario.apellido
+          })
         .then(res => {
           console.log(res);      
-          router.push({name: 'Login'});
         })
         .catch( e => {
           console.log("error modificando la cuenta");          
@@ -180,23 +214,29 @@
       },
       fillFields(){
         // TODO averiguar por qué no se obtienen los datos
+        /*
         this.usuario.email = localStorage.email
-        console.log("f",localStorage.email)
+        console.log("f",localStorage.vuex.email)
         this.usuario.nombre = localStorage.nombre
         console.log("f",localStorage.nombre)
         this.usuario.apellido = localStorage.apellido
-        console.log("f",localStorage.email)                
+        console.log("f",localStorage.email)    
+        */
+        //Creo que es mejor consultar pedir los datos al servidor porque como lo tenemos, en el frontend lo pueden editar
+
       }
     },
     created() {
       if (localStorage) {
       //this.name = localStorage.name;
-      //  this.setUsuario();
+        this.setUsuario();
         console.log("e:"+this.$store.state.id);
         this.fillFields()
 
       }
-      
-  }
+    },
+    mounted(){
+      this.getUserData(this.$store.state.id);
+    }
   }
 </script>
