@@ -81,7 +81,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-title>Eye Movies</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text-field v-model="titulo" @keyup="getResultados(titulo)" label="Nombre" append-icon="mdi-magnify"></v-text-field>
+      <v-text-field v-model="titulo" @keyup="getResultados(titulo); getResultadosSeries(titulo)" label="Nombre" append-icon="mdi-magnify"></v-text-field>
       <v-btn icon>
         <router-link :to="{ name: 'Peliculas'}">
         <v-icon v-on:click="getResultados(titulo)">mdi-magnify</v-icon>
@@ -121,11 +121,12 @@ export default {
             'resultados','isLogueado','hidden','id'
         ]),
         ...mapMutations([
-                'llenarResultados'
+                'llenarResultados',
+                'llenarResultadosSeries'
             ])
     },
     methods:{
-      ...mapActions(['getResultados','cerrarSession'])
+      ...mapActions(['getResultados','getResultadosSeries','cerrarSession'])
     },
     
 };

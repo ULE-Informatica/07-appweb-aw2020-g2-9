@@ -26,6 +26,10 @@ export default new Vuex.Store({
       console.log('cambiando resultados');
       state.resultados= resultadosObtenidos;
     },
+    llenarResultadosSeries(state,resultadosObtenidos){
+      console.log('cambiando resultados series');
+      state.resultadosSeries= resultadosObtenidos;
+    },
     llenarPopularMovies(state,resultadosObtenidos){
       
       state.popularMovies= resultadosObtenidos;
@@ -85,6 +89,7 @@ export default new Vuex.Store({
       state.id= 0,
       state.hidden= false,
       state.resultados= [],
+      state.resultadosSeries=[],
       state.popularMovies=[],
       state.popularSeries=[],
       state.trending=[],
@@ -135,7 +140,6 @@ export default new Vuex.Store({
         axios.get('https://api.themoviedb.org/3/search/movie?api_key=d3500b9561bcc274c208215eeec7093b&query='+titulo)
       .then( (response) => {
         // handle success
-        
         const resultados = response.data.results;
         commit('llenarResultados',resultados);
 
@@ -145,6 +149,21 @@ export default new Vuex.Store({
         console.log(error);
       });
     },
+    getResultadosSeries: async function({ commit },titulo ){
+      
+      console.log('entre'+JSON.stringify(titulo ));
+      //console.log(resultados);
+        axios.get('https://api.themoviedb.org/3/search/tv?api_key=d3500b9561bcc274c208215eeec7093b&query='+titulo)
+      .then( (response) => {
+        const resultados = response.data.results;
+        commit('llenarResultados',resultados);
+
+      })
+      .catch( (error) => {
+        console.log(error);
+      });
+    },
+    
     getListas: async function({ commit } ){
       console.log("eiquetas de :" + this.state.id );
       
