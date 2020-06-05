@@ -14,8 +14,8 @@
           v-model="usuario.apellidos"
           label="Apellidos"
           required
-          @input="$v.usuario.apellidos.$touch()"
-          @blur="$v.usuario.apellidos.$touch()"
+          @input="$v.usuario.apellido.$touch()"
+          @blur="$v.usuario.apellido.$touch()"
           @keydown.enter="submit"
         ></v-text-field>
         <v-text-field
@@ -66,7 +66,7 @@
         password: { required, maxLength: maxLength(10) },
         email: { required, email },
         nombre: { required },
-        apellidos: { required }
+        apellido: { required }
       }
     },
 
@@ -76,12 +76,10 @@
         email: '',
         password:'',
         nombre:'',
-        apellidos: ''
+        apellido: ''
       },
       message: '',
-      success : '' 
-      
-      
+      success : ''
     }),
 
     computed: {
@@ -93,6 +91,7 @@
         !this.$v.usuario.password.required && errors.push('La contraseña es obligatoria')
         return errors
       },
+
       emailErrors () {
         const errors = []
         if (!this.$v.usuario.email.$dirty) return errors
@@ -100,25 +99,24 @@
         !this.$v.usuario.email.required && errors.push('El email es obligatorio')
         return errors
       },
+
       //TRATAR DE QUE APAREZCAN LOS MENSAJES
       mensaje: function(){
-        var m=this.message;
-        
+        var m=this.message;        
         return m;
       },
+
       exito: function(){
-        var e=this.success;
-        
+        var e=this.success;        
         return e;
       }
     },
 
     methods: {
       agregarUsuario(usuario){
-            this.axios.post('/registro', usuario)
+        this.axios.post('/registro', usuario)
         .then(res => {
-          console.log(res);
-          
+          console.log(res);          
           /*
           // Agrega al inicio al array usuario
           this.contrasenia="";
@@ -131,10 +129,8 @@
           router.push({name: 'Login'});
         })
         .catch( e => {
-          console.log("error despues de crear");
-          
+          console.log("error despues de crear");          
           console.log(e.response.data.error.errors.correo.message);
-
           // Alerta de mensaje
           this.showAlert();
           this.mensaje.color = 'danger';
@@ -142,16 +138,17 @@
         })
         this.usuarios = {}
       },
+
       submit () {
         this.$v.$touch()
       },
+
       clear () {
         this.$v.$reset()
         this.usuario.nombre = ''
         this.usuario.email = ''
-        this.usuario.apellidos=''
-        this.usuario.password=''
-        
+        this.usuario.apellido=''
+        this.usuario.password=''        
       },
     },
     mounted() {    

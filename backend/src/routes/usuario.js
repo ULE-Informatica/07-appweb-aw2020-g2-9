@@ -2,27 +2,19 @@ const express = require('express');
 const router = express.Router();
 var sequelize=require('../conexionBD');
 const Sequelize = require('sequelize');
-
 const pass=require('../lib/password');
 const models =require("../../models");
+
 const users = models.User;
-
-
-
-
-
-
 console.log('entre');
 const usuarios = models.Datospersonales;
-
 
 router.post('/nuevo_usuario', async (req, res) => {
     console.log(req.body);
     try {
         return await usuarios.create({
             Nombre: req.body.nombre,
-            Apellido: req.body.apellido,
-            
+            Apellido: req.body.apellido            
             
         }).then(function (usuarios) {
             console.log(usuarios);
