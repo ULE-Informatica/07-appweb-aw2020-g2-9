@@ -19,19 +19,25 @@
       <!-- LISTAS -->
       <v-row>
         <v-col cols=100%>            
-            <v-card class="mb-3 mt-2" v-for="(item,index) of listas" :key="index">
-                <v-card-text>
-                    <v-chip class="ml-0 mb-2" color="pink" label text-color="white">
-                    <v-icon left>mdi-label</v-icon>
+            <v-card class="mb-3 mt-2" color="pink lighten-4" outlined v-for="(item,index) of listas" :key="index" @click="verLista(item.id)">
+                <v-row>
+                  <v-col cols=9>
+                    <v-card-text>
+                      <v-list-item>
+                        <v-list-item-title class="headline font-italic font-weight-medium" text-color="white">{{item.nombre}}</v-list-item-title>
+                      </v-list-item>
+                      <!--<v-chip class="ml-0 mb-2" color="pink accent-1" label text-color="white" large>
+                        <v-icon left>mdi-label</v-icon>
                         {{item.nombre}}
-                    </v-chip>
-                </v-card-text>  
-                <v-divider></v-divider>
-                <v-card-actions>
-                    <v-btn color="primary" class="ml-1" @click="verLista(item.id)">Ver</v-btn>
-                    <v-btn color="warning" class="ml-1" @click="editar(index,item.id)">Editar</v-btn>
-                    <v-btn color="error" @click="eliminarLista(item.id)"  >Eliminar</v-btn>
-                </v-card-actions>
+                      </v-chip>-->
+                    </v-card-text>  
+                  </v-col>
+                  <v-divider vertical></v-divider>                
+                  <v-col class="pt-8" align="center">
+                    <v-btn color="teal darken-1" dark class="me-3" @click="editar(index,item.id)">Editar</v-btn>
+                    <v-btn color="grey darken-1" dark class="ml-3 me-2" @click="eliminarLista(item.id)"  >Eliminar</v-btn>
+                  </v-col>
+                </v-row>
             </v-card>
         </v-col>
       </v-row>
@@ -50,7 +56,7 @@
         <v-btn v-show= hidden class="mr-4" type="submit">Enviar</v-btn>
       </v-form>-->
 
-      <v-form v-if="!formAgregar " @submit.prevent="modificarLista()">
+      <!--<v-form v-if="!formAgregar " @submit.prevent="modificarLista()">
         <v-row>
           <v-col>
             <v-text-field
@@ -63,7 +69,7 @@
         </v-row>
         <v-btn  class="mr-4" type="submit">Modificar</v-btn>
         <v-btn @click="formAgregar = !formAgregar" class="mr-4" type="submit">Nuevo</v-btn>
-      </v-form>
+      </v-form>-->
 
       <!--<v-row align="center" justify="center">
         <v-col class="shrink">
