@@ -44,14 +44,6 @@ module.exports = {
       calificacion: {
         type: Sequelize.FLOAT
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: (queryInterface, Sequelize) => {
