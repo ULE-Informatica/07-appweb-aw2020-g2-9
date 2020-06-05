@@ -28,10 +28,10 @@ export default {
     
   },
   computed: {
-        resultados() {
-            return this.$store.state.resultados
-        },
+    resultados() {
+      return this.$store.state.resultados
     },
+  },
 
   beforeUpdate: function(){
     console.log("Se ha ejecutado before update");

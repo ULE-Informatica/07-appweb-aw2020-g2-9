@@ -10,6 +10,7 @@ import Movie from '../views/Movie.vue'
 import Registro from '../views/Registro.vue'
 import Login from '../views/Login.vue'
 import Serie from '../views/Serie.vue'
+import Busqueda from '../views/Busqueda.vue'
 
 
 
@@ -65,6 +66,11 @@ Vue.use(VueRouter)
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/busqueda',
+    name: 'Busqueda',
+    component: Busqueda
   }
 ]
 

@@ -131,24 +131,22 @@ export default new Vuex.Store({
       });
     },
 
-
-
     getResultados: async function({ commit },titulo ){
       
       console.log('entre'+JSON.stringify(titulo ));
       //console.log(resultados);
-        axios.get('https://api.themoviedb.org/3/search/movie?api_key=d3500b9561bcc274c208215eeec7093b&query='+titulo)
+      axios.get('https://api.themoviedb.org/3/search/movie?api_key=d3500b9561bcc274c208215eeec7093b&query='+titulo)
       .then( (response) => {
         // handle success
         const resultados = response.data.results;
         commit('llenarResultados',resultados);
-
       })
       .catch( (error) => {
         // handle error
         console.log(error);
       });
     },
+
     getResultadosSeries: async function({ commit },titulo ){
       
       console.log('entre'+JSON.stringify(titulo ));
@@ -157,7 +155,6 @@ export default new Vuex.Store({
       .then( (response) => {
         const resultados = response.data.results;
         commit('llenarResultados',resultados);
-
       })
       .catch( (error) => {
         console.log(error);
@@ -165,8 +162,7 @@ export default new Vuex.Store({
     },
     
     getListas: async function({ commit } ){
-      console.log("eiquetas de :" + this.state.id );
-      
+      console.log("eiquetas de :" + this.state.id );      
       axios.get('/lista', 
       {
         params: {
@@ -196,8 +192,6 @@ export default new Vuex.Store({
         console.log("Este usuario tiene estas listasXXX");
         const resultados=res.data;
         commit('llenarListasPeliculas',resultados);
-
-
       })
       .catch( (error) => {
         console.log(error);
@@ -231,10 +225,9 @@ export default new Vuex.Store({
 
 
     getUsuario: async function({ commit },usuario ){
-        axios.post('/login', usuario)
+      axios.post('/login', usuario)
       .then( (res) => {
-        console.log("paso login index");
-        
+        console.log("paso login index");        
         // handle success
         localStorage.setItem('userToken',res.data );
         commit('pasarLogin');
@@ -245,8 +238,7 @@ export default new Vuex.Store({
       });
     },
     setUsuario: function({ commit } ){
-      console.log("CAMBIO");
-      
+      console.log("CAMBIO");      
       commit('cambiarID');
     },
     deleteStates: function({ commit } ){
@@ -255,21 +247,18 @@ export default new Vuex.Store({
     cerrarSession:  function({ commit } ){    
                    
       axios.get("/login/logout")    
-          .then(function(){  
-            
-            localStorage.clear();
-            commit('restartStates');
-            router.push('/Login');
+      .then(function(){              
+        localStorage.clear();
+        commit('restartStates');
+        router.push('/Login');
 
-          })    
-          .catch((errors) => {    
-              console.log(errors)    
-              router.push("/") 
-          })    
+      })    
+      .catch((errors) => {    
+          console.log(errors)    
+          router.push("/") 
+      })    
     }  
   },
-  plugins: [createPersistedState({})],
-  modules: {
-  }
+  plugins: [createPersistedState({})]
 })
 

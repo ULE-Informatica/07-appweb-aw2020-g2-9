@@ -90,7 +90,7 @@
       <v-spacer></v-spacer><v-spacer></v-spacer>
       <v-toolbar-title @click="$router.push('/')" class="display-1 font-italic font-weight-bold">Eye Movies</v-toolbar-title>
       <v-spacer></v-spacer><v-spacer></v-spacer>      
-      <v-text-field v-model="titulo" @keyup.enter="getResultados(titulo); $router.push('/peliculas')" 
+      <v-text-field v-model="titulo" @keyup.enter="getResultados(titulo); getResultadosSeries(titulo); $router.push('/busqueda')" 
         placeholder="Búsqueda" append-icon="mdi-magnify" class="pt-5"></v-text-field>      
       <!--<v-btn v-show= hidden  icon>
         <v-icon v-on:click="cerrarSession()">mdi-logout</v-icon>
