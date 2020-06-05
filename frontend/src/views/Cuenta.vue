@@ -56,7 +56,7 @@
       
 
       <v-btn class="mr-4" type="submit">actualizar datos</v-btn>
-      <v-btn @click="clear">clear</v-btn>
+      
 
 
     </form>
@@ -207,11 +207,7 @@
       submit () {
         this.$v.$touch()
       },
-      clear () {
-        this.$v.$reset()
-        this.setUsuario()
-        
-      },
+      
       fillFields(){
         // TODO averiguar por qué no se obtienen los datos
         /*

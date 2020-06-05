@@ -35,14 +35,7 @@
             <v-list-item-title>Listas</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/amigos">
-          <v-list-item-action>
-            <v-icon>mdi-account-group</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Amigos</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        
         <v-list-item v-if="hidden" link to="/cuenta">
         
           <v-list-item-action>
@@ -59,18 +52,6 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Cuenta</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-
-
-
-        <v-list-item link to="/ajustes">
-          <v-list-item-action>
-            <v-icon>mdi-cog-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Ajustes</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

@@ -88,7 +88,7 @@
         </v-row>-->
 
         <!-- GUARDAR EN LISTA -->
-        <v-row v-show= hidden> 
+        <v-row v-show= id> 
           <v-col cols="4" class="shrink">
             <v-select  @change="agregarLista()"
               v-model="listasValores" :items="listas2"  attach 
@@ -99,14 +99,14 @@
             </v-btn>-->
           </v-col>
         </v-row>
-        <v-row v-if="!peliculaRegistrada">
+        <v-row v-if="!peliculaRegistrada" v-show=id>
           <H2>Etiqueta</h2>
           <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined color="color"
             @click="agregarEtiqueta($route.params.id_movie, index)" >
             <v-icon left>mdi-plus</v-icon> {{item}}  
           </v-btn>
         </v-row>
-        <v-row v-else>
+        <v-row v-else v-show=id>
           <H2>Etiqueta</h2>
          <v-btn v-for="(item,index) of etiquetas" :key="index" class="ma-2" tile outlined 
           
@@ -331,11 +331,11 @@ export default {
   },
 
   created() {
-    if (localStorage) {
-      this.setUsuario();
-      console.log("e:"+this.$store.state.id);
-    }
+    console.log("HEY");
+    console.log(this.$route.params);
     if(this.$route.params.id_movie) {
+      console.log("Datos pelicula");
+      
       console.log(this.$route.params.id_movie); 
       //busca la pelicula
       // Make a request for a user with a given ID
@@ -348,7 +348,20 @@ export default {
       .catch( (error) => {
         console.log(error);
       });
-    }else if (this.$route.params.id_serie) {
+    }
+    
+    if (localStorage) {
+      this.setUsuario();
+      console.log("e:"+this.$store.state.id);
+    }
+    
+    
+    
+    
+    
+    //Para serie utilizar la siguiente busqueda
+    /* 
+    else if (this.$route.params.id_serie) {
       axios.get('https://api.themoviedb.org/3/tv/'+this.$route.params.id_serie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-ES')
       .then( (response) => {
         console.log("Datos de la pelicula");
@@ -359,6 +372,7 @@ export default {
         console.log(error);
       });
     } 
+    */
   },
 
   beforeMount: async function(){
