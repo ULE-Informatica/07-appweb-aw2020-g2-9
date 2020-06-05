@@ -28,6 +28,7 @@
                 </v-card-text>  
                 <v-divider></v-divider>
                 <v-card-actions>
+                    <v-btn color="primary" class="ml-1" @click="verLista(item.id)">Ver</v-btn>
                     <v-btn color="warning" class="ml-1" @click="editar(index,item.id)">Editar</v-btn>
                     <v-btn color="error" @click="eliminarLista(item.id)"  >Eliminar</v-btn>
                 </v-card-actions>
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-//import axios from "axios"   
+import axios from "axios"   
 import { mapActions,mapState,mapMutations } from 'vuex'
 
   import router from "../router" 
@@ -232,6 +233,23 @@ import { mapActions,mapState,mapMutations } from 'vuex'
         this.indexNota=index
         this.idLista=id
         console.log(id);        
+      },
+      verLista(id_lis){
+        console.log("lista");
+        axios.get('lista/verLista',{
+          params: {
+            id: this.id,
+            idLista: id_lis
+          }
+      })
+      .then( (res) => {
+        console.log("se checo lista");
+        console.log(res);
+        
+      })
+        .catch( (error) => {
+          console.log(error);
+        });    
       },
 
       submit () {

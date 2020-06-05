@@ -67,7 +67,7 @@ router.delete('/pelicula_lista', async (req, res) => {
     console.log("eliminar pelicula de lista");
     
     console.log(req.body);
-    /*
+    
     var encontrada=false;
     const listas= req.body.listas;
 
@@ -113,10 +113,6 @@ router.delete('/pelicula_lista', async (req, res) => {
         }
         );
     }
-    
-    */
-    
-    
 });
 
 
@@ -326,17 +322,14 @@ router.get('/pelicula',async(req,res)=> {
 
 
 //get con parametros
-router.get('/muestra/:id',async(req,res)=> {
+router.get('/verLista',async(req,res)=> {
     console.log("vista especifico");
-    const idLista=req.params.id;
-
-    const lista = await listas.findOne({
-        where: {
-            id: idLista
-        },
-        })
-        
-          .then(function (lista) {
+    console.log(req.params);
+    console.log(req.query);
+    sequelize.query("SELECT listapelicula.peliculaId FROM `listapelicula` WHERE listaId=:idLista ORDER by listapelicula.id",
+        { replacements: { idLista: req.query.idLista },
+         type: sequelize.QueryTypes.SELECT }
+    ).then(function (lista) {
             if (lista) {
                 
                 res.send(lista);
@@ -347,7 +340,7 @@ router.get('/muestra/:id',async(req,res)=> {
             res.status(400).send('Error al obtener todos'+
             error )
         });
-
+        
 } )  ;
 
 router.put('/', async (req, res) => {

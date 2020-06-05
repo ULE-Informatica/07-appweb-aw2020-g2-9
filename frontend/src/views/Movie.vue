@@ -392,7 +392,7 @@ export default {
     this.getEtiqueta();
 
 
-    /*  
+     
     this.getCalificacion();
     console.log(this.calificacion);
     
@@ -418,7 +418,7 @@ export default {
       console.log(error);
     });
 
-    */
+    
   },
 
   updated: async function(){
