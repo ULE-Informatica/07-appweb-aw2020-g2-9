@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height" fluid>
-    <v-row>
+      <v-row>
       <!-- POSTER -->
       <v-col cols="4"  class="shrink">
         <div v-if="'https://image.tmdb.org/t/p/w300/'+datosPelicula.poster_path">
@@ -35,8 +35,8 @@
         <!-- PUNTUACIÓN -->
         
         <v-row align="center" justify="center" v-if="!peliculaRegistrada">     
-            <v-rating v-model="calificacion" background-color="indigo lighten-3" color="indigo" half-increments 
-            hover medium @input="agregarCalificacion($route.params.id_movie, calificacion)"></v-rating>
+            <v-rating v-if="this.$store.state.id != 0 " v-model="calificacionEstrellas" background-color="indigo lighten-3" color="indigo" half-increments 
+            hover medium @input="agregarCalificacion($route.params.id_movie, calificacionEstrellas)"></v-rating>
             <h5 v-on="on">{{ "TMDB(" + datosPelicula.vote_average + ")"}} </h5>
             <!--<span v-if="calificacion">  Calificación personal: {{calificacion * 2}}</span>-->
             <!--<v-tooltip bottom>
@@ -50,10 +50,10 @@
         </v-row>
 
         <v-row align="center" justify="center" v-if="peliculaRegistrada">     
-            <v-rating v-model="calificacion" background-color="indigo lighten-3" color="indigo" half-increments 
-            hover medium @input="modificarCalificacion($route.params.id_movie, calificacion)"></v-rating>
+            <v-rating v-if="this.$store.state.id != 0 " v-model="calificacionEstrellas" background-color="indigo lighten-3" color="indigo" half-increments 
+            hover medium @input="modificarCalificacion($route.params.id_movie, calificacionEstrellas)"></v-rating>
             <h5 v-on="on">{{ "TMDB(" + datosPelicula.vote_average + ")"}} </h5>
-            <h5 v-if="calificacion>0">Tu calificación:{{calificacion}} </h5>
+            <h5 v-if="calificacion>0"> Tu calificación:{{calificacion}} Estrellas {{calificacionEstrellas}} </h5>
         </v-row>
         <!-- SIPNOSIS -->
         <v-row align="center" justify="left" class="pl-3 pt-2">
@@ -146,7 +146,8 @@ export default {
       listasValores:[],
       model: null,
       cambioLista: false,
-      calificacion:0
+      calificacion:0,
+      calificacionEstrellas: 0,
     }
   },
 
@@ -179,7 +180,7 @@ export default {
       console.log(this.id);
       console.log(this.datosPelicula.id);
       
-      this.axios.post('/lista/pelicula_lista', {'idApi' : this.datosPelicula.id, 'id':this.id, 'listas':this.listasValores })
+      this.axios.post('/lista/pelicula_lista', {'idApi' : this.datosPelicula.id, 'id':this.id, 'listas':this.listasValores, 'isPelicula':1 })
       .then(res => {
         console.log(res);
       })
@@ -298,9 +299,10 @@ export default {
     },
 
     agregarCalificacion(idApi, calificacion){
-      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion })
+      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2 })
       .then(res => {
         console.log(res);
+        
         this.$mount();
       })
       .catch( e => {
@@ -308,10 +310,7 @@ export default {
         console.log(e.response);
       })
     },
-    f(){
-      console.log("hey");
-      
-    },
+    
     modificarCalificacion(idApi, calificacion){
       console.log("Entre a modificar calificacion");
       
@@ -321,6 +320,7 @@ export default {
         console.log(res);        
         //Actualiza la etiqueta
         this.getCalificacion();
+        this.calificacionEstrellas = this.calificacion/2;
       })
       .catch( e => {
         console.log("error despues de modificar");        
@@ -345,6 +345,9 @@ export default {
           console.log("se checo movie y esta registrada por calificacion");
           this.peliculaRegistrada=true;
           this.calificacion=res.data[0].calificacion;
+          this.calificacionEstrellas = this.calificacion/2;
+
+
           console.log(this.calificacion);
           
         }
@@ -358,6 +361,8 @@ export default {
 
   created() {
     console.log("HEY");
+    this.calificacionEstrellas = this.calificacion/2;
+
     console.log(this.$route.params);
     if(this.$route.params.id_movie) {
       console.log("Datos pelicula");
@@ -438,7 +443,7 @@ export default {
 
      
     this.getCalificacion();
-
+    this.calificacionEstrellas = this.calificacion/2;
     console.log(this.calificacion);
     
     //Consultas si la pelicula se encuentra en alguna lista
@@ -462,10 +467,6 @@ export default {
       console.log("Error");      
       console.log(error);
     });
-  },
-
-  updated: async function(){
-    console.log("ACtualizado:"+ this.etiquetaRegistrada);
   }
 
 };

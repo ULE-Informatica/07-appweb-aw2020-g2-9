@@ -187,14 +187,14 @@ router.post('/pelicula_lista', async (req, res) => {
                 encontrada=true;
                 console.log(respuesta);
             } else {
-               console.log("No se encontro por lo que hay que agregarla");
+               console.log("No se encontró, por lo que hay que agregarla");
                encontrada=false;
             }
         }
         );
         if (!encontrada){
-            await sequelize.query("INSERT INTO listapelicula (`listaId`, `peliculaId`) VALUES (:idLista, :idPelicula)",
-            { replacements: { idLista: listas[i], idPelicula: req.body.idApi },
+            await sequelize.query("INSERT INTO listapelicula (`listaId`, `peliculaId`, `isPelicula`) VALUES (:idLista, :idPelicula, :isPelicula)",
+            { replacements: { idLista: listas[i], idPelicula: req.body.idApi, isPelicula: req.body.isPelicula },
             type: sequelize.QueryTypes.INSERT }
             ).then((res) => {
                 console.log("Pelicula insertada a la lista");
@@ -326,7 +326,7 @@ router.get('/verLista',async(req,res)=> {
     console.log("vista especifico");
     console.log(req.params);
     console.log(req.query);
-    sequelize.query("SELECT listapelicula.peliculaId FROM `listapelicula` WHERE listaId=:idLista ORDER by listapelicula.id",
+    sequelize.query("SELECT listapelicula.peliculaId,listapelicula.isPelicula  FROM `listapelicula` WHERE listaId=:idLista ORDER by listapelicula.id",
         { replacements: { idLista: req.query.idLista },
          type: sequelize.QueryTypes.SELECT }
     ).then(function (lista) {

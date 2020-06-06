@@ -23,8 +23,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         onUpdate: 'CASCADE'
-        
+      },
+      isPelicula: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE'
       }
+
       
       
     });
