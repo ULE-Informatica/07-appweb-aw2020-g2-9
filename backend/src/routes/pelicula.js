@@ -109,7 +109,7 @@ router.put('/', async (req, res) => {
     console.log("modificar");
     
     console.log(req.body);
-
+    
     
     if (req.body.etiquetaId==0)
     {

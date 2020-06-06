@@ -33,10 +33,11 @@
             </v-tooltip>
         </v-row>
         <!-- PUNTUACIÓN -->
-        <v-row align="center" justify="center">     
+        
+        <v-row align="center" justify="center" v-if="!peliculaRegistrada">     
             <v-rating v-model="calificacion" background-color="indigo lighten-3" color="indigo" half-increments 
-            hover medium @change="agregarCalificacion($route.params.id_movie, calificacion)"></v-rating>
-            <h5 v-on="on">{{ "(" + datosPelicula.vote_average + ")"}} </h5>
+            hover medium @input="agregarCalificacion($route.params.id_movie, calificacion)"></v-rating>
+            <h5 v-on="on">{{ "TMDB(" + datosPelicula.vote_average + ")"}} </h5>
             <!--<span v-if="calificacion">  Calificación personal: {{calificacion * 2}}</span>-->
             <!--<v-tooltip bottom>
               <template v-slot:activator="{ on }">
@@ -46,6 +47,13 @@
               </template>
               <span>Puntuación</span>
             </v-tooltip>-->
+        </v-row>
+
+        <v-row align="center" justify="center" v-if="peliculaRegistrada">     
+            <v-rating v-model="calificacion" background-color="indigo lighten-3" color="indigo" half-increments 
+            hover medium @input="modificarCalificacion($route.params.id_movie, calificacion)"></v-rating>
+            <h5 v-on="on">{{ "TMDB(" + datosPelicula.vote_average + ")"}} </h5>
+            <h5 v-if="calificacion>0">Tu calificación:{{calificacion}} </h5>
         </v-row>
         <!-- SIPNOSIS -->
         <v-row align="center" justify="left" class="pl-3 pt-2">
@@ -104,13 +112,13 @@
         <v-row v-if="!peliculaRegistrada" v-show=id>
           <v-btn v-for="(item,index) of etiquetas" :key="index" class="mx-3" tile outlined color="color"
             @click="agregarEtiqueta($route.params.id_movie, index)" >
-            <v-icon left>mdi-plus</v-icon> {{item}}  
+            <v-icon left>mdi-plus</v-icon> {{item}} {{"n"}} 
           </v-btn>
         </v-row>
         <v-row v-else v-show=id>
           <v-btn v-for="(item,index) of etiquetas" :key="index" class="mx-3" tile outlined           
             @click="modificarEtiqueta($route.params.id_movie, index)" >
-            <v-icon v-if="!find(index)" left>mdi-plus</v-icon> {{item}} 
+            <v-icon v-if="!find(index)" left>mdi-plus</v-icon> {{item}} {{"e"}} 
           </v-btn>
         </v-row>
       </v-col>
@@ -259,24 +267,30 @@ export default {
         }
       })
       .then( (res) => {
-        console.log("se checo movie");
-        this.etiquetaRegistrada=[];
-        //this.etiquetaRegistrada=res.data[0].id;
-
-        if (res.data[0].isVista == 1)
+        
+        if (res.data.length > 0 && (res.data[0].isVista == 1 || res.data[0].isPendiente == 1 || res.data[0].isFavorita == 1  ))
         {
-          this.etiquetaRegistrada.push(0);
-        }
-        if (res.data[0].isPendiente == 1){
-          console.log("Se agrega 1");
-          this.etiquetaRegistrada.push(1);
-        }
-        if (res.data[0].isFavorita == 1){
-           this.etiquetaRegistrada.push(2);
+          console.log("se checo movie y esta registrada por etiqueta");
+          this.etiquetaRegistrada=[];
+          //this.etiquetaRegistrada=res.data[0].id;
+
+          if (res.data[0].isVista == 1)
+          {
+            this.etiquetaRegistrada.push(0);
+            this.peliculaRegistrada=true;
+          }
+          if (res.data[0].isPendiente == 1){
+            console.log("Se agrega 1");
+            this.etiquetaRegistrada.push(1);
+            this.peliculaRegistrada=true;
+          }
+          if (res.data[0].isFavorita == 1){
+            this.etiquetaRegistrada.push(2);
+            this.peliculaRegistrada=true;
+          }
         }  
 
-        this.peliculaRegistrada=true;
-        console.log(this.etiquetaRegistrada);
+        
       })
       .catch( (error) => {
         console.log(error);
@@ -294,7 +308,13 @@ export default {
         console.log(e.response);
       })
     },
+    f(){
+      console.log("hey");
+      
+    },
     modificarCalificacion(idApi, calificacion){
+      console.log("Entre a modificar calificacion");
+      
       this.axios.put('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2 })
       .then(res => {
         console.log("respuesta");        
@@ -317,9 +337,17 @@ export default {
         }
       })
       .then( (res) => {
-        console.log("se checo movie");
-        this.peliculaRegistrada=true;
-        this.calificacion=res.data[0].calificacion;
+        console.log(res);
+        
+        if (res.data.length > 0 && res.data[0].calificacion)
+        {
+          
+          console.log("se checo movie y esta registrada por calificacion");
+          this.peliculaRegistrada=true;
+          this.calificacion=res.data[0].calificacion;
+          console.log(this.calificacion);
+          
+        }
       })
       .catch( (error) => {
         console.log(error);
@@ -347,7 +375,7 @@ export default {
         console.log(error);
       });
     }
-    
+
     if (localStorage) {
       this.setUsuario();
       console.log("e:"+this.$store.state.id);
@@ -374,7 +402,8 @@ export default {
   },
 
   beforeMount: async function(){
-    console.log("Se ha ejecutado before mounted");  
+    console.log("Se ha ejecutado before mounted"); 
+    /* 
     await axios.get('/etiqueta')
     .then( (res) => {
       //console.log('https://api.themoviedb.org/3/movie/'+this.$route.params.id_movie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-MX');
@@ -388,9 +417,11 @@ export default {
       // handle error
       console.log(error);
     });
+    */
   }, 
 
-  mounted: async function(){    
+  mounted: async function(){   
+     
     await this.getListas();
     await console.log(this.$store.state.listas);    
     console.log("LISTAS");
@@ -401,11 +432,13 @@ export default {
     });
     console.log(this.listas2);    
     console.log("Se ha ejecutado mounted7");
+    
     this.getEtiqueta();
 
 
      
     this.getCalificacion();
+
     console.log(this.calificacion);
     
     //Consultas si la pelicula se encuentra en alguna lista
@@ -429,8 +462,6 @@ export default {
       console.log("Error");      
       console.log(error);
     });
-
-    
   },
 
   updated: async function(){

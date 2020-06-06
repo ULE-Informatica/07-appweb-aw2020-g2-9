@@ -29,7 +29,7 @@ router.post('/nuevo_lista', async (req, res) => {
 router.get('/',async(req,res)=> {
     console.log("vista todosXXX");
     
-    //console.log(req.query);
+    console.log(req.query);
     
     
     const lista = await listas.findAll({

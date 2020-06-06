@@ -201,7 +201,7 @@ export default new Vuex.Store({
         console.log(error);
       });
     },
-
+    /*
     getEtiquetas: async function({ commit } ){
       axios.get('/etiqueta')
       .then( (response) => {
@@ -213,6 +213,7 @@ export default new Vuex.Store({
         console.log(error);
       });
     },
+    */
 
     getPeliculas: async function({ commit } ){
       axios.get('/pelicula')

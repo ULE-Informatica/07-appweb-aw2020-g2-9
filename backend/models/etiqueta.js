@@ -7,9 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Etiqueta.associate = function(models) {
     // associations can be defined here
-    Etiqueta.hasMany(models.Pelicula,{
-      foreignKey: 'etiquetaId'
-    }); 
+    
   };
   return Etiqueta;
 };

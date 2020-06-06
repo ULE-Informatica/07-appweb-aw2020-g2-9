@@ -24,16 +24,9 @@ module.exports = {
         allowNull: false,
         onUpdate: 'CASCADE'
         
-      },
-      
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
+      
+      
     });
   },
 
