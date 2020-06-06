@@ -76,7 +76,7 @@ import { mapActions,mapState,mapMutations } from 'vuex'
           //Pelicula
           if (element.isPelicula)
           {
-            axios.get('https://api.themoviedb.org/3/movie/'+element.peliculaId+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-MX')
+            axios.get('https://api.themoviedb.org/3/movie/'+element.peliculaId+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-ES')
             .then( (response) => {
               this.listaPeliculas.push({ id: element.peliculaId, title: response.data.title, poster_path: response.data.poster_path, isPelicula: true } );
             })
