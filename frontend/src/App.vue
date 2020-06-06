@@ -30,7 +30,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/listas">
+        <v-list-item v-show="id" link to="/listas">
           <v-list-item-action>
             <v-icon>mdi-playlist-star</v-icon>
           </v-list-item-action>
@@ -38,15 +38,6 @@
             <v-list-item-title>Listas</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <!--<v-list-item link to="/amigos">
-          <v-list-item-action>
-            <v-icon>mdi-account-group</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Amigos</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
 
         <v-list-item v-if="hidden" link to="/cuenta">        
           <v-list-item-action>
@@ -65,7 +56,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item @click="cerrarSession()">        
+        <v-list-item v-show="id" @click="cerrarSession()">        
           <v-list-item-action>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-action>
@@ -74,27 +65,16 @@
           </v-list-item-content>
         </v-list-item>
 
-        <!--<v-list-item link to="/ajustes">
-          <v-list-item-action>
-            <v-icon>mdi-cog-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Ajustes</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app dark clipped-left hide-on-scroll>
       <v-icon x-large left>mdi-drama-masks</v-icon>
       <v-spacer></v-spacer><v-spacer></v-spacer>
-      <v-toolbar-title @click="$router.push('/')" class="display-1 font-italic font-weight-bold">Eye Movies</v-toolbar-title>
+      <v-toolbar-title @click="$router.push('/')" class="display-1 font-italic font-weight-bold" role="button">Eye Movies</v-toolbar-title>
       <v-spacer></v-spacer><v-spacer></v-spacer>      
       <v-text-field v-model="titulo" @keyup.enter="getResultados(titulo); getResultadosSeries(titulo); $router.push('/busqueda')" 
         placeholder="Búsqueda" append-icon="mdi-magnify" class="pt-5"></v-text-field>      
-      <!--<v-btn v-show= hidden  icon>
-        <v-icon v-on:click="cerrarSession()">mdi-logout</v-icon>
-      </v-btn>-->
     </v-app-bar>
 
     <v-content>
