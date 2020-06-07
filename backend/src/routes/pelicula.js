@@ -12,80 +12,88 @@ const peliculas = models.Pelicula;
 
 
 router.post('/', async (req, res) => {
+    console.log("creando entrada en tabla peliculas");
     console.log(req.body);
-    console.log(req.body.etiquetaId);
+    console.log(req.body.etiquetaId); 
     
-    
-    
-        if (req.body.etiquetaId==0)
-        {
-            return await peliculas.create({
-                peliculaId: req.body.idApi,
-                userId: req.body.id,
-                isVista:1
-            }).then(function (peliculas) {
-                console.log(peliculas);
-                if (peliculas) {
-                    console.log("Bien");
-                    
-                    res.send(peliculas);
-                }
-            }).catch(function (error){
-                console.log(error);
+    var peliculaOserie = req.body.peliculaOserie;
+    if(peliculaOserie==0){
+        console.log("Es una película");
+    }else{
+        console.log("Es una serie");
+    }
+
+    if (req.body.etiquetaId==0)
+    {
+        return await peliculas.create({
+            peliculaId: req.body.idApi,
+            userId: req.body.id,
+            isVista:1,
+            peliculaOserie: peliculaOserie
+        }).then(function (peliculas) {
+            console.log(peliculas);
+            if (peliculas) {
+                console.log("Bien");
                 
-                res.status(400).send('Error a crear registro '+
-                error )
-            });
+                res.send(peliculas);
+            }
+        }).catch(function (error){
+            console.log(error);
             
-           
-        }else if (req.body.etiquetaId==1)
-        {
-            return await peliculas.create({
-                peliculaId: req.body.idApi,
-                userId: req.body.id,
-                isPendiente:1
-            }).then(function (peliculas) {
-                console.log(peliculas);
-                if (peliculas) {
-                    console.log("Bien");
-                    
-                    res.send(peliculas);
-                }
-            }).catch(function (error){
-                console.log(error);
+            res.status(400).send('Error a crear registro '+
+            error )
+        });        
+        
+    }else if (req.body.etiquetaId==1)
+    {
+        return await peliculas.create({
+            peliculaId: req.body.idApi,
+            userId: req.body.id,
+            isPendiente:1,
+            peliculaOserie: req.body.peliculaOserie
+        }).then(function (peliculas) {
+            console.log(peliculas);
+            if (peliculas) {
+                console.log("Bien");
                 
-                res.status(400).send('Error a crear registro '+
-                error )
-            });
+                res.send(peliculas);
+            }
+        }).catch(function (error){
+            console.log(error);
             
-        }else if (req.body.etiquetaId==2)
-        {
-            console.log("entre2");
-            return await peliculas.create({
-                peliculaId: req.body.idApi,
-                userId: req.body.id,
-                isFavorita:1
-            }).then(function (peliculas) {
-                console.log(peliculas);
-                if (peliculas) {
-                    console.log("Bien");
-                    
-                    res.send(peliculas);
-                }
-            }).catch(function (error){
-                console.log(error);
+            res.status(400).send('Error a crear registro '+
+            error )
+        });
+        
+    }else if (req.body.etiquetaId==2)
+    {
+        console.log("entre2");
+        return await peliculas.create({
+            peliculaId: req.body.idApi,
+            userId: req.body.id,
+            isFavorita:1,
+            peliculaOserie: req.body.peliculaOserie
+        }).then(function (peliculas) {
+            console.log(peliculas);
+            if (peliculas) {
+                console.log("Bien");
                 
-                res.status(400).send('Error a crear registro '+
-                error )
-            });
+                res.send(peliculas);
+            }
+        }).catch(function (error){
+            console.log(error);
             
-        }
+            res.status(400).send('Error a crear registro '+
+            error )
+        });
+        
+    }
     else if (req.body.calificacion){
         return await peliculas.create({
             peliculaId: req.body.idApi,
             calificacion: req.body.calificacion,
-            userId: req.body.id
-            
+            userId: req.body.id,
+            peliculaOserie: req.body.peliculaOserie
         }).then(function (peliculas) {
             console.log(peliculas);
             if (peliculas) {
@@ -100,9 +108,6 @@ router.post('/', async (req, res) => {
             error )
         });
     }
-    
-
-
 });
 
 router.put('/', async (req, res) => {
@@ -139,11 +144,8 @@ router.put('/', async (req, res) => {
         where: {
             peliculaId: req.body.idApi,
             userId: req.body.id
-        },
-
-        
+        }
         })
-        
        .then(function (pelicula) {
             if (pelicula) {
                 res.send(pelicula);
@@ -194,16 +196,10 @@ router.put('/', async (req, res) => {
             error )
         });
     }
-    
-    
 });
 
-
-
 router.get('/',async(req,res)=> {
-    console.log(req.query);
-    
-    
+    console.log(req.query);    
     const pelicula = await peliculas.findAll({
        where: { 
         peliculaId: req.query.movie_id,
@@ -221,47 +217,30 @@ router.get('/',async(req,res)=> {
             res.status(400).send('Error al obtener todos'+
             error )
         });
-        
 } )  ;
 
-
-
-
 router.get('/log/:user',async(req,res)=> {
-    
-    
-    
     console.log("aqui:\n");
-        console.log(req.params.user);
-        
+    console.log(req.params.user);        
     console.log(usuarios);
-        
-        //console.log(req.app.locals);
-        //console.log(req.app.locals.success);
-        
     
-    
-    console.log();
-    console.log();
-    
-        const usuario = await usuarios.findOne({
-            where: {
-                userId: req.params.user
-            }
-          })
-          .then(function (usuario) {
-            if (usuario) {
-                //console.log(usuario);
-                
-                res.send(usuario);
-            } else {
-                res.status(400).send('Error in insert new record');
-            }
-        }).catch(function (error){
-            res.status(400).send('Error in insert new record'+
-            error )
-        });
-
+    const usuario = await usuarios.findOne({
+        where: {
+            userId: req.params.user
+        }
+        })
+        .then(function (usuario) {
+        if (usuario) {
+            //console.log(usuario);
+            
+            res.send(usuario);
+        } else {
+            res.status(400).send('Error in insert new record');
+        }
+    }).catch(function (error){
+        res.status(400).send('Error in insert new record'+
+        error )
+    });
 } );
 
 

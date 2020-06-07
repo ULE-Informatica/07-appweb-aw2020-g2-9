@@ -11,7 +11,7 @@
           @keydown.enter="submit"
         ></v-text-field>
         <v-text-field
-          v-model="usuario.apellidos"
+          v-model="usuario.apellido"
           label="Apellidos"
           required
           @input="$v.usuario.apellido.$touch()"

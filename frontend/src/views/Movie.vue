@@ -80,7 +80,7 @@
                 <v-icon left>mdi-plus</v-icon> {{item}}
               </v-btn>
             </v-row>
-            <v-row v-else v-show=id justify="center">
+            <v-row v-if="peliculaRegistrada" v-show=id justify="center">
               <v-btn v-for="(item,index) of etiquetas" :key="index" class="mx-3" tile color="indigo lighten-1" dark depressed
                 @click="modificarEtiqueta($route.params.id_movie, index)" small>
                 <v-icon v-if="!find(index)" left>mdi-plus</v-icon> {{item}}
@@ -204,19 +204,19 @@ export default {
         //this.mensaje.color = 'danger';
         //this.mensaje.texto = e.response.data.error.errors.correo.message;
       })
-      this.usuarios = {}
+      this.usuarios = {};
     },
 
     agregarEtiqueta(idApi, idEtiqueta){
-      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'etiquetaId':idEtiqueta })
+      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'etiquetaId':idEtiqueta, 'peliculaOserie':0 })
       .then(res => {
         console.log(res);
         this.$mount();
         this.peliculaRegistrada=true;
+        this.getEtiqueta();
       })
       .catch( e => {
-        console.log("error despues de agregar");
-        
+        console.log("error despues de agregar");        
         console.log(e.response);
 
         // Alerta de mensaje
@@ -224,7 +224,7 @@ export default {
         //this.mensaje.color = 'danger';
         //this.mensaje.texto = e.response.data.error.errors.correo.message;
       })
-      this.usuarios = {}
+      this.usuarios = {};      
     },
     getEtiqueta(){
       //Consulta la etiqueta de la pelicula
@@ -257,8 +257,6 @@ export default {
             this.peliculaRegistrada=true;
           }
         }  
-
-        
       })
       .catch( (error) => {
         console.log(error);
@@ -266,7 +264,7 @@ export default {
     },
 
     agregarCalificacion(idApi, calificacion){
-      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2 })
+      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2, 'peliculaOserie':0 })
       .then(res => {
         console.log(res);
         

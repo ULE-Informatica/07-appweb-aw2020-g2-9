@@ -2,16 +2,12 @@ const express = require('express');
 const router = express.Router();
 var sequelize=require('../conexionBD');
 const Sequelize = require('sequelize');
-
-
 const models =require("../../models");
 const listas = models.Lista;
 const users = models.User;
 
-
 router.post('/nuevo_lista', async (req, res) => {
-    console.log("post lista");
-    
+    console.log("post lista");    
     console.log(req.body);
     
         return await listas.create({
@@ -22,16 +18,12 @@ router.post('/nuevo_lista', async (req, res) => {
         }).catch(function (error){
         res.status(400).send('Error in insert new record'+
         error)
-    });
-    
+    });    
 });
 
 router.get('/',async(req,res)=> {
-    console.log("vista todosXXX");
-    
-    console.log(req.query);
-    
-    
+    console.log("vista todosXXX");    
+    console.log(req.query);    
     const lista = await listas.findAll({
         where: {
             userId: req.query.id
@@ -42,14 +34,10 @@ router.get('/',async(req,res)=> {
             where: { id: req.query.id }
         }]
         */
-    })
-        
-          .then(function (lista) {
+        }).then(function (lista) {
             if (lista) {
                 console.log("resultados listas all");
                 //console.log(lista);
-                
-                
                 res.send(lista);
             } else {
                 res.status(400).send('Error al obtener todos');
@@ -58,22 +46,13 @@ router.get('/',async(req,res)=> {
             res.status(400).send('Error al obtener todos'+
             error )
         });
-
 } )  ;
 
-
-
 router.delete('/pelicula_lista', async (req, res) => {
-    console.log("eliminar pelicula de lista");
-    
-    console.log(req.body);
-    
+    console.log("eliminar pelicula de lista");    
+    console.log(req.body);    
     var encontrada=false;
     const listas= req.body.listas;
-
-    //eliminar
-    
-
     //se consulta las listas donde esta la pelicula
     const listasIniciales=await sequelize.query("SELECT listas.id as value FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser and listas.id = listapelicula.listaId",
     { replacements: { idUser: req.body.id, idPelicula: req.body.idApi },
@@ -115,22 +94,13 @@ router.delete('/pelicula_lista', async (req, res) => {
     }
 });
 
-
-
-
-
 router.post('/pelicula_lista', async (req, res) => {
-    console.log("agrega pelicula a listas");
-    
+    console.log("agrega pelicula a listas");    
     console.log(req.body);
     var encontrada=false;
     const listas= req.body.listas;
-
-    //eliminar
-    
-
     //se consulta las listas donde esta la pelicula
-    const listasIniciales=await sequelize.query("SELECT listas.id as value FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser and listas.id = listapelicula.listaId",
+    const listasIniciales=await sequelize.query("SELECT listas.id as value FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser AND listas.id = listapelicula.listaId",
     { replacements: { idUser: req.body.id, idPelicula: req.body.idApi },
      type: sequelize.QueryTypes.SELECT }
     )
@@ -170,8 +140,7 @@ router.post('/pelicula_lista', async (req, res) => {
                 console.log("Se elimino");
             }
             );
-        }
-        
+        }        
     }
     //insertar
     for (var i=0; i<listas.length; i++) 

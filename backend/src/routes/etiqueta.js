@@ -59,14 +59,68 @@ router.get('/movie',async(req,res)=> {
         
 } )  ;
 
+router.get('/vistas', async(req, res) =>{
+
+    console.log("obteniendo películas o series vistas.");
+    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isVista = :vista AND peliculaOserie = :peliculaOserie',
+    {replacements: {userId: req.query.userId, vista: 1, peliculaOserie: req.query.peliculaOserie}, 
+    type: sequelize.QueryTypes.SELECT}
+    ).then(function(lista){
+        if(lista){
+            console.log("resultados:");
+            console.log(lista);
+            res.send(lista);
+        }else{
+            res.status(400).send("error al obtener películas o series vistas.");
+        }        
+    }).catch(function (error){
+        res.status(400).send('error al obtener películas o series vistas: ' + error);
+    });
+});
+
+router.get('/pendientes', async(req, res) =>{
+
+    console.log("obteniendo películas o series pendientes.");
+    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isPendiente = :pendiente AND peliculaOserie = :peliculaOserie',
+    {replacements: {userId: req.query.userId, pendiente: 1, peliculaOserie: req.query.peliculaOserie}, 
+    type: sequelize.QueryTypes.SELECT}
+    ).then(function(lista){
+        if(lista){
+            console.log("resultados:");
+            console.log(lista);
+            res.send(lista);
+        }else{
+            res.status(400).send("error al obtener películas o series pendientes.");
+        }        
+    }).catch(function (error){
+        res.status(400).send('error al obtener películas o series pendientes: ' + error);
+    });
+});
+
+router.get('/favoritas', async(req, res) =>{
+
+    console.log("obteniendo películas o series favoritas.");
+    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isFavorita = :favorita AND peliculaOserie = :peliculaOserie',
+    {replacements: {userId: req.query.userId, favorita: 1, peliculaOserie: req.query.peliculaOserie}, 
+    type: sequelize.QueryTypes.SELECT}
+    ).then(function(lista){
+        if(lista){
+            console.log("resultados:");
+            console.log(lista);
+            res.send(lista);
+        }else{
+            res.status(400).send("error al obtener películas o series favoritas.");
+        }        
+    }).catch(function (error){
+        res.status(400).send('error al obtener películas o series favoritas: ' + error);
+    });
+});
+
 router.put('/', async (req, res) => {
-    console.log("modificar");
-    
-    console.log(req.body);
-    
-    
+    console.log("modificar");    
+    console.log(req.body);       
     const lista = await listas.update({
-            nombre : req.body.nombre
+        nombre : req.body.nombre
         },{
         where: {
             id: req.body.id,

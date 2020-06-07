@@ -197,10 +197,12 @@ export default {
     },
 
     agregarEtiqueta(idApi, idEtiqueta){
-      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'etiquetaId':idEtiqueta })
+      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'etiquetaId':idEtiqueta, 'peliculaOserie':1})
       .then(res => {
         console.log(res);
         this.$mount();
+        this.serieRegistrada=true;
+        this.getEtiqueta();
       })
       .catch( e => {
         console.log("error despues de agregar");        
@@ -252,7 +254,7 @@ export default {
 
     agregarCalificacion(idApi, calificacion){
       console.log("agregar");      
-      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion })
+      this.axios.post('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2, 'peliculaOserie':1 })
       .then(res => {
         console.log(res);
         this.$mount();
@@ -265,7 +267,7 @@ export default {
     },
     
     modificarCalificacion(idApi, calificacion){
-      this.axios.put('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion })
+      this.axios.put('/pelicula', {'idApi' : this.$route.params.id_serie, 'id':this.id, 'calificacion':calificacion*2 })
       .then(res => {
         console.log("respuesta");        
         console.log(res);        

@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     isVista:  DataTypes.INTEGER,
     isPendiente :  DataTypes.INTEGER,
     isFavorita:  DataTypes.INTEGER,
+    peliculaOserie: DataTypes.INTEGER // 0 pelicula, 1 serie
   }, {
     
   });

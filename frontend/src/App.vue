@@ -12,7 +12,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/peliculas">
+        <v-list-item v-show="!id" link to="/peliculas">
           <v-list-item-action>
             <v-icon>mdi-movie-filter</v-icon>
           </v-list-item-action>
@@ -21,7 +21,46 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link to="/series">
+        <v-list-group v-show="id" prepend-icon="mdi-movie-filter">
+          <template v-slot:activator>
+            <v-list-item-title>Películas</v-list-item-title>
+          </template>
+          <v-list-item link to="/peliculas/vistas">
+            <v-list-item-action>
+              <v-icon>mdi-eye-off-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Vistas</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/peliculas/pendientes">
+            <v-list-item-action>
+              <v-icon>mdi-clock-time-three-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Pendientes</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/peliculas/favoritas">
+            <v-list-item-action>
+              <v-icon>mdi-heart-multiple-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Favoritas</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/peliculas/all">
+            <v-list-item-action>
+              <v-icon>mdi-deathly-hallows</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Ver todo</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list-group>
+
+        <v-list-item v-show="!id" link to="/series">
           <v-list-item-action>
             <v-icon>mdi-television</v-icon>
           </v-list-item-action>
@@ -29,6 +68,45 @@
             <v-list-item-title>Series</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-group v-show="id" prepend-icon="mdi-television">
+          <template v-slot:activator>
+            <v-list-item-title>Series</v-list-item-title>
+          </template>
+          <v-list-item link to="/series/vistas">
+            <v-list-item-action>
+              <v-icon>mdi-eye-off-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Vistas</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/series/pendientes">
+            <v-list-item-action>
+              <v-icon>mdi-clock-time-three-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Pendientes</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/series/favoritas">
+            <v-list-item-action>
+              <v-icon>mdi-heart-multiple-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Favoritas</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link to="/series/all">
+            <v-list-item-action>
+              <v-icon>mdi-death-star-variant</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Ver todo</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list-group>
 
         <v-list-item v-show="id" link to="/listas">
           <v-list-item-action>
@@ -73,7 +151,7 @@
       <v-spacer></v-spacer><v-spacer></v-spacer>
       <v-toolbar-title @click="$router.push('/')" class="display-1 font-italic font-weight-bold" role="button">Eye Movies</v-toolbar-title>
       <v-spacer></v-spacer><v-spacer></v-spacer>      
-      <v-text-field v-model="titulo" @keyup.enter="getResultados(titulo); getResultadosSeries(titulo); $router.push('/busqueda')" 
+      <v-text-field v-model="titulo" @keyup.enter="getResultados(titulo); getResultadosSeries(titulo); $router.push('/busqueda'); titulo=''" 
         placeholder="Búsqueda" append-icon="mdi-magnify" class="pt-5"></v-text-field>      
     </v-app-bar>
 
@@ -108,7 +186,10 @@ export default {
             ])
     },
     methods:{
-      ...mapActions(['getResultados','getResultadosSeries','cerrarSession'])
+      ...mapActions(['getResultados','getResultadosSeries','cerrarSession']),
+      created(){
+        this.cerrarSession();
+      }
     },
     
 };
