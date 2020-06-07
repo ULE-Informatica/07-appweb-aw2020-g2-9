@@ -163,7 +163,7 @@ router.put('/', async (req, res) => {
         
     }
 
-    var usuario=await usuarios.update({ Apellido: req.body.apellido, Nombre: req.body.nombre }, {
+    var usuario=await usuarios.update({ Apellido: req.body.apellidos, Nombre: req.body.nombre }, {
         where: {
             userId: req.body.id
         }

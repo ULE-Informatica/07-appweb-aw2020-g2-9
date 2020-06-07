@@ -127,7 +127,7 @@
                 console.log(this.usuario.nombre);
                 
                 self.$set(this.usuario, "nombre", response.data.Nombre)  
-                self.$set(this.usuario, "apellidos", response.data.apellidos)
+                self.$set(this.usuario, "apellidos", response.data.Apellido)
                 console.log(response.data.User.email); 
                 self.$set(this.usuario, "email", response.data.User.email)
 
