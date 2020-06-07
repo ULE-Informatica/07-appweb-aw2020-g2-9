@@ -44,6 +44,7 @@ module.exports = {
       calificacion: {
         type: Sequelize.FLOAT
       },
+<<<<<<< HEAD
       peliculaOserie: {
         type: Sequelize.INTEGER,
         allowNull: true        
@@ -56,6 +57,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+=======
+>>>>>>> 310df1293c7d3694c48ac61df028953f308d693b
     });
   },
   down: (queryInterface, Sequelize) => {
