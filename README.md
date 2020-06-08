@@ -18,5 +18,6 @@
 * Subir el contenido de la carpeta del backend a _nodejs_ for ftp y situarse en ella.
 * Crear una nueva base de datos, desde phpMyAdmin, llamada **login-nodejs2**.
 * Migrar las tablas a la base de datos con el comando `npx sequelize-cli db:migrate`.
+* Descargar los node-modules con `npm install`.
 * Ejecutar el backend con el comando `pm2 start app.js`.
 
