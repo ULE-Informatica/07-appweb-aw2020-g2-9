@@ -17,7 +17,7 @@
       </v-card>
 
       <!-- LISTAS -->
-      <v-row class="pt-2">
+      <v-row v-if="listas.length>0" class="pt-2">
         <v-col cols=100%>            
             <v-card class="mb-3 mt-2" color="pink lighten-4" outlined v-for="(item,index) of listas" 
               :key="index" @click="$router.push('/lista/' + item.id)">
@@ -41,6 +41,12 @@
               </v-row>
             </v-card>
         </v-col>
+        
+      </v-row>
+      <v-row v-else>
+      <v-col  class="pot-8">
+      <v-alert type="info" class="pt-8>">No tienes ninguna lista creada.</v-alert>
+      </v-col>
       </v-row>
 
       <!--<v-form v-if="formAgregar " @submit.prevent="nuevaLista(nombre)">

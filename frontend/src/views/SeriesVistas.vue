@@ -1,7 +1,7 @@
 <template>
   <div class="pa-7">
     <h2>Series vistas</h2>
-    <v-card class="d-flex flex-wrap justify-center" flat tile>
+    <v-card v-if="seriesVistas" class="d-flex flex-wrap justify-center" flat tile>
       <v-card v-for="serie in seriesVistas" :key="serie.id" outline tile
         class="ma-3" max-width=140px flat @click="$router.push('/peli/' + serie.id)">
         <v-img v-if=serie.poster_path :src="'https://image.tmdb.org/t/p/w500/'+serie.poster_path" 
@@ -10,6 +10,7 @@
         </v-img>
       </v-card>
     </v-card>
+    <v-alert v-else type="info">No tienes ninguna serie marcada como vista.</v-alert>
   </div>
 </template>
 

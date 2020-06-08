@@ -1,7 +1,7 @@
 <template>
   <div class="pa-7">
     <h2>Películas pendientes</h2>
-    <v-card class="d-flex flex-wrap justify-center" flat tile>
+    <v-card v-if="peliculasPendientes.length>0" class="d-flex flex-wrap justify-center" flat tile>
       <v-card v-for="pelicula in peliculasPendientes" :key="pelicula.id" outline tile
         class="ma-3" max-width=140px flat @click="$router.push('/peli/' + pelicula.id)">
         <v-img v-if=pelicula.poster_path :src="'https://image.tmdb.org/t/p/w500/'+pelicula.poster_path" 
@@ -10,6 +10,7 @@
         </v-img>
       </v-card>
     </v-card>
+    <v-alert v-else type="info">No tienes ninguna película marcada como pendiente.</v-alert>
   </div>
 </template>
 
