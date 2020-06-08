@@ -3,8 +3,8 @@ module.exports ={
     database:{
         host: 'localhost',
         dialect: 'mysql',
-        user: 'root',
-        password: 'root',
+        user: 'awuser',
+        password: 'awpass',
         database: 'login-nodejs2'
     }
 };

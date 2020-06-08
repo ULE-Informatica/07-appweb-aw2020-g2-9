@@ -72,7 +72,7 @@ export default new Vuex.Store({
       const token = localStorage.userToken;
       const decoded = jwtDecode(token);
       state.id= decoded.id;
-      router.push("/cuenta")  
+      router.push("/")  
     },
 
     cambiarID(state){
