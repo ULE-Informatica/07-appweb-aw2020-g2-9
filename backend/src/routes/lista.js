@@ -54,7 +54,7 @@ router.delete('/pelicula_lista', async (req, res) => {
     var encontrada=false;
     const listas= req.body.listas;
     //se consulta las listas donde esta la pelicula
-    const listasIniciales=await sequelize.query("SELECT listas.id as value FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser and listas.id = listapelicula.listaId",
+    const listasIniciales=await sequelize.query("SELECT Listas.id as value FROM `ListaPelicula`,Listas WHERE peliculaId= :idPelicula AND Listas.userId=:idUser and Listas.id = ListaPelicula.listaId",
     { replacements: { idUser: req.body.id, idPelicula: req.body.idApi },
      type: sequelize.QueryTypes.SELECT }
     )
@@ -84,7 +84,7 @@ router.delete('/pelicula_lista', async (req, res) => {
     for (var i=0; i<difference.length; i++) 
     {
         //Se verifica que no se encuentre en la base
-        await sequelize.query("DELETE FROM `listapelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
+        await sequelize.query("DELETE FROM `ListaPelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
         { replacements: { idLista: difference[i], idPelicula:  req.body.idApi },
          type: sequelize.QueryTypes.DELETE }
         ).then((respuesta) => {
@@ -100,7 +100,7 @@ router.post('/pelicula_lista', async (req, res) => {
     var encontrada=false;
     const listas= req.body.listas;
     //se consulta las listas donde esta la pelicula
-    const listasIniciales=await sequelize.query("SELECT listas.id as value FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser AND listas.id = listapelicula.listaId",
+    const listasIniciales=await sequelize.query("SELECT Listas.id as value FROM `ListaPelicula`,Listas WHERE peliculaId= :idPelicula AND Listas.userId=:idUser AND Listas.id = ListaPelicula.listaId",
     { replacements: { idUser: req.body.id, idPelicula: req.body.idApi },
      type: sequelize.QueryTypes.SELECT }
     )
@@ -133,7 +133,7 @@ router.post('/pelicula_lista', async (req, res) => {
         for (var i=0; i<difference.length; i++) 
         {
             //Se verifica que no se encuentre en la base
-            await sequelize.query("DELETE FROM `listapelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
+            await sequelize.query("DELETE FROM `ListaPelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
             { replacements: { idLista: difference[i], idPelicula:  req.body.idApi },
             type: sequelize.QueryTypes.DELETE }
             ).then((respuesta) => {
@@ -147,7 +147,7 @@ router.post('/pelicula_lista', async (req, res) => {
     {
         console.log(listas[i]);
         //Se verifica que no se encuentre en la base
-        await sequelize.query("SELECT * FROM `listapelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
+        await sequelize.query("SELECT * FROM `ListaPelicula` WHERE peliculaId= :idPelicula AND listaId=:idLista",
         { replacements: { idLista: listas[i], idPelicula: req.body.idApi },
          type: sequelize.QueryTypes.SELECT }
         ).then((respuesta) => {
@@ -162,7 +162,7 @@ router.post('/pelicula_lista', async (req, res) => {
         }
         );
         if (!encontrada){
-            await sequelize.query("INSERT INTO listapelicula (`listaId`, `peliculaId`, `isPelicula`) VALUES (:idLista, :idPelicula, :isPelicula)",
+            await sequelize.query("INSERT INTO ListaPelicula (`listaId`, `peliculaId`, `isPelicula`) VALUES (:idLista, :idPelicula, :isPelicula)",
             { replacements: { idLista: listas[i], idPelicula: req.body.idApi, isPelicula: req.body.isPelicula },
             type: sequelize.QueryTypes.INSERT }
             ).then((res) => {
@@ -185,9 +185,9 @@ router.get('/allPeliculas',async(req,res)=> {
     //Lista con peliculas dado un usuario
     
     //peliculas dado una lista
-    //SELECT listas.nombre, listapelicula.listaId, listapelicula.peliculaId FROM `listapelicula`,listas WHERE listapelicula.listaId=4 and listas.id=listapelicula.listaId
+    //SELECT listas.nombre, listapelicula.listaId, listapelicula.peliculaId FROM `ListaPelicula`,Listas WHERE listapelicula.listaId=4 and listas.id=listapelicula.listaId
     
-    sequelize.query("SELECT listas.id, listas.nombre, listapelicula.listaId, listapelicula.peliculaId FROM `listapelicula`,listas WHERE listas.id=listapelicula.listaId and listas.userId=:idUser ORDER by listas.id",
+    sequelize.query("SELECT Listas.id, Listas.nombre, ListaPelicula.listaId, ListaPelicula.peliculaId FROM `ListaPelicula`,Listas WHERE Listas.id=ListaPelicula.listaId and Listas.userId=:idUser ORDER by Listas.id",
         { replacements: { idUser: req.query.id },
          type: sequelize.QueryTypes.SELECT }
     )
@@ -234,7 +234,7 @@ router.get('/allPeliculas',async(req,res)=> {
 router.get('/pelicula',async(req,res)=> {
     console.log("Buscando listas de la pelicula");
     console.log(req.query);
-    sequelize.query("SELECT listas.id, listas.nombre FROM `listapelicula`,listas WHERE peliculaId= :idPelicula AND listas.userId=:idUser and listas.id = listapelicula.listaId",
+    sequelize.query("SELECT Listas.id, Listas.nombre FROM `ListaPelicula`,Listas WHERE peliculaId= :idPelicula AND Listas.userId=:idUser and Listas.id = ListaPelicula.listaId",
         { replacements: { idUser: req.query.id, idPelicula: req.query.movie_id },
          type: sequelize.QueryTypes.SELECT }
     )
@@ -249,7 +249,7 @@ router.get('/pelicula',async(req,res)=> {
     });
 
     /*
-    sequelize.query("SELECT * FROM `listapelicula` WHERE id= :idUser and peliculaId= :idPelicula",
+    sequelize.query("SELECT * FROM `ListaPelicula` WHERE id= :idUser and peliculaId= :idPelicula",
         { replacements: { idUser: req.query.id, idPelicula: req.query.movie_id },
          type: sequelize.QueryTypes.SELECT }
     )
@@ -295,7 +295,7 @@ router.get('/verLista',async(req,res)=> {
     console.log("vista especifico");
     console.log(req.params);
     console.log(req.query);
-    sequelize.query("SELECT listapelicula.peliculaId,listapelicula.isPelicula  FROM `listapelicula` WHERE listaId=:idLista ORDER by listapelicula.id",
+    sequelize.query("SELECT ListaPelicula.peliculaId,ListaPelicula.isPelicula  FROM `ListaPelicula` WHERE listaId=:idLista ORDER by ListaPelicula.id",
         { replacements: { idLista: req.query.idLista },
          type: sequelize.QueryTypes.SELECT }
     ).then(function (lista) {
@@ -346,7 +346,7 @@ router.delete('/', async (req, res) => {
     //Borra los registros donde este asosciado con la lista
 
     
-    await sequelize.query("DELETE FROM `listapelicula` WHERE listapelicula.listaId = :idLista",
+    await sequelize.query("DELETE FROM `ListaPelicula` WHERE ListaPelicula.listaId = :idLista",
     { replacements: { idLista: req.query.id },
      type: sequelize.QueryTypes.SELECT }
     )

@@ -3,7 +3,6 @@ const router = express.Router();
 var sequelize=require('../conexionBD');
 const Sequelize = require('sequelize');
 
-
 const models =require("../../models");
 const peliculas = models.Pelicula;
 const users = models.User;
@@ -41,7 +40,7 @@ router.get('/movie',async(req,res)=> {
     console.log(req.query);
     
     
-    sequelize.query('SELECT * FROM peliculas WHERE peliculaId = :peliculaId ',
+    sequelize.query('SELECT * FROM Peliculas WHERE peliculaId = :peliculaId ',
     { replacements: { peliculaId: req.query.movie_id }, type: sequelize.QueryTypes.SELECT }
     
     ).then(function (p) {
@@ -62,7 +61,7 @@ router.get('/movie',async(req,res)=> {
 router.get('/vistas', async(req, res) =>{
 
     console.log("obteniendo películas o series vistas.");
-    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isVista = :vista AND peliculaOserie = :peliculaOserie',
+    sequelize.query('SELECT * FROM Peliculas WHERE userId = :userId AND isVista = :vista AND peliculaOserie = :peliculaOserie',
     {replacements: {userId: req.query.userId, vista: 1, peliculaOserie: req.query.peliculaOserie}, 
     type: sequelize.QueryTypes.SELECT}
     ).then(function(lista){
@@ -81,7 +80,7 @@ router.get('/vistas', async(req, res) =>{
 router.get('/pendientes', async(req, res) =>{
 
     console.log("obteniendo películas o series pendientes.");
-    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isPendiente = :pendiente AND peliculaOserie = :peliculaOserie',
+    sequelize.query('SELECT * FROM Peliculas WHERE userId = :userId AND isPendiente = :pendiente AND peliculaOserie = :peliculaOserie',
     {replacements: {userId: req.query.userId, pendiente: 1, peliculaOserie: req.query.peliculaOserie}, 
     type: sequelize.QueryTypes.SELECT}
     ).then(function(lista){
@@ -100,7 +99,7 @@ router.get('/pendientes', async(req, res) =>{
 router.get('/favoritas', async(req, res) =>{
 
     console.log("obteniendo películas o series favoritas.");
-    sequelize.query('SELECT * FROM peliculas WHERE userId = :userId AND isFavorita = :favorita AND peliculaOserie = :peliculaOserie',
+    sequelize.query('SELECT * FROM Peliculas WHERE userId = :userId AND isFavorita = :favorita AND peliculaOserie = :peliculaOserie',
     {replacements: {userId: req.query.userId, favorita: 1, peliculaOserie: req.query.peliculaOserie}, 
     type: sequelize.QueryTypes.SELECT}
     ).then(function(lista){
