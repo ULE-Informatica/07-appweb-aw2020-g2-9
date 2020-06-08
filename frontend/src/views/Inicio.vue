@@ -90,16 +90,11 @@ export default {
 
     
   },
-  beforeUpdate: function(){
-    console.log("Se ha ejecutado before update");
-    console.log(this.$store.state.popularMovies);
-    
-  },
+  
   created() {
       if (localStorage) {
       //this.name = localStorage.name;
         this.setUsuario();
-        console.log("e:"+this.$store.state.id);
         
       }
   }

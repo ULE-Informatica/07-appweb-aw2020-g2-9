@@ -143,9 +143,6 @@ export default {
     },
 
     agregarLista(){
-      console.log(this.listasValores);
-      console.log(this.id);
-      console.log(this.datosPelicula.id);
       
       this.axios.post('/lista/pelicula_lista', {'idApi' : this.datosPelicula.id, 'id':this.id, 'listas':this.listasValores, 'isPelicula':1 })
       .then(res => {
@@ -160,7 +157,6 @@ export default {
     changedValue: function() {
       //receive the value selected (return an array if is multiple)
       this.cambioLista=true;
-      console.log(this.cambioLista);
     },
 
     ...mapActions(['setUsuario','getListas']),
@@ -238,7 +234,6 @@ export default {
         
         if (res.data.length > 0 && (res.data[0].isVista == 1 || res.data[0].isPendiente == 1 || res.data[0].isFavorita == 1  ))
         {
-          console.log("se checo movie y esta registrada por etiqueta");
           this.etiquetaRegistrada=[];
           //this.etiquetaRegistrada=res.data[0].id;
 
@@ -248,7 +243,6 @@ export default {
             this.peliculaRegistrada=true;
           }
           if (res.data[0].isPendiente == 1){
-            console.log("Se agrega 1");
             this.etiquetaRegistrada.push(1);
             this.peliculaRegistrada=true;
           }
@@ -278,11 +272,9 @@ export default {
     },
     
     modificarCalificacion(idApi, calificacion){
-      console.log("Entre a modificar calificacion");
       
       this.axios.put('/pelicula', {'idApi' : idApi, 'id':this.id, 'calificacion':calificacion*2 })
-      .then(res => {
-        console.log("respuesta");        
+      .then(res => {   
         console.log(res);        
         //Actualiza la etiqueta
         
@@ -308,13 +300,11 @@ export default {
         if (res.data.length > 0 && res.data[0].calificacion)
         {
           
-          console.log("se checo movie y esta registrada por calificacion");
           this.peliculaRegistrada=true;
           this.calificacion=res.data[0].calificacion;
           this.calificacionEstrellas = this.calificacion/2;
 
 
-          console.log(this.calificacion);
           
         }
       })
@@ -327,17 +317,11 @@ export default {
 
   created() {
     this.calificacionEstrellas = this.calificacion/2;
-    console.log(this.$route.params);
-
+    
     if(this.$route.params.id_movie) {      
-      console.log("Datos pelicula");      
-      console.log(this.$route.params.id_movie); 
       //busca la pelicula
-      // Make a request for a user with a given ID
       axios.get('https://api.themoviedb.org/3/movie/'+this.$route.params.id_movie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-MX')
       .then( (response) => {
-        console.log("Datos de la pelicula");
-        console.log(response.data);
         this.datosPelicula = response.data
       })
       .catch( (error) => {
@@ -350,53 +334,21 @@ export default {
       console.log("e:"+this.$store.state.id);
     }
 
-    //Para serie utilizar la siguiente busqueda
-    /* 
-    else if (this.$route.params.id_serie) {
-      axios.get('https://api.themoviedb.org/3/tv/'+this.$route.params.id_serie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-ES')
-      .then( (response) => {
-        console.log("Datos de la pelicula");
-        console.log(response.data);
-        this.datosPelicula = response.data
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
-    } 
-    */
+    
   },
 
-  beforeMount: async function(){
-    console.log("Se ha ejecutado before mounted"); 
-    /* 
-    await axios.get('/etiqueta')
-    .then( (res) => {
-      //console.log('https://api.themoviedb.org/3/movie/'+this.$route.params.id_movie+'?api_key=d3500b9561bcc274c208215eeec7093b&language=es-MX');
-      
-      // handle success
-      console.log(res.data);
-      this.etiquetas=res.data;
-      //this.datosPelicula = response.data
-    })
-    .catch( (error) => {
-      // handle error
-      console.log(error);
-    });
-    */
-  }, 
+  
 
   mounted: async function(){   
      
     await this.getListas();
     await console.log(this.$store.state.listas);    
-    console.log("LISTAS");
-
+    
     //listas creadas por el usuario
     this.$store.state.listas.forEach(element => {
       this.listas2.push({ value: element.id, text: element.nombre } );
     });
-    console.log(this.listas2);    
-    console.log("Se ha ejecutado mounted7");
+    
     
     this.getEtiqueta();
 
@@ -404,10 +356,10 @@ export default {
      
     this.getCalificacion();
     this.calificacionEstrellas = this.calificacion/2;
-    console.log(this.calificacion);
+    
     
     //Consultas si la pelicula se encuentra en alguna lista
-    console.log('Verificar  si esta en lista ');
+    
     axios.get('lista/pelicula',{
       params: {
         id: this.id,
@@ -415,13 +367,11 @@ export default {
       }
     })
     .then( (res) => {
-      console.log("La movie esta en las listas");
       var aux=res.data;
-      console.log(aux);      
       aux.forEach(element => {
         this.listasValores.push({ value: element.id } );
       });
-      console.log(this.listasValores);
+      
     })
     .catch( (error) => {
       console.log("Error");      

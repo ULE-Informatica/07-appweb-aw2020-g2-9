@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "awuser",
-    "password": "awpass",
-    "database": "login-nodejs2",
+    "username": "root",
+    "password": "",
+    "database": "login-nodejs3",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "operatorsAliases": false
   },
   "test": {

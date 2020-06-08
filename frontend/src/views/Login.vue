@@ -83,7 +83,6 @@
 
     computed: {
       logueado(){
-        console.log("muestra algo");        
         return this.$store.state.id;
       },
       passwordErrors () {
@@ -113,27 +112,7 @@
     methods: {
       ...mapActions(['getUsuario']),
     
-      /*
-      verUsuario(usuario){
-            this.axios.post('/login', usuario)
-        .then(res => {
-          localStorage.setItem('userToken',res.data );
-          console.log("www");          
-          console.log(res.data);
-          // Alerta de mensaje
-            //router.push('/dashboard',usuario);
-            router.push({name: 'Cuenta'});
-          //this.showAlert();
-          //this.mensaje.texto = 'Usuario logeado!'
-          //this.mensaje.color = 'success';
-        })
-        .catch( e => {          
-          console.log(e.response);          
-        })               
-        this.usuario = {}            
-        },
-        */
-
+      
       submit () {
         this.$v.$touch()
       },

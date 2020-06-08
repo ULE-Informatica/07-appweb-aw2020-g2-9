@@ -10,6 +10,7 @@
 
 ### Frontend
 * `cd frontend`: Para situarse en el frontend.
+* Editar el archivo main.js localizado dentro de la carpeta src, cambiando el localhost por la dirección IP de la máquina virtual.
 * `npm run build`: Se generan los archivos para subir a producción.
 * Subir el contenido de la carpeta generada _dist_ a la carpeta _html_ del servidor apache, usando un cliente ftp (como filezilla).
 
